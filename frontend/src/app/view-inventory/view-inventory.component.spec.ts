@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ViewInventoryComponent } from './view-inventory.component';
+
 
 describe('ViewInventoryComponent', () => {
   let component: ViewInventoryComponent;

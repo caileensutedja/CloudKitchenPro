@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, } from '@angular/core';
 // import { provideBrowserGlobalErrorListeners } from '@angular/platform-browser';
 
 import { provideRouter, withHashLocation } from '@angular/router';
