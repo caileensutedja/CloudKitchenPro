@@ -1,0 +1,47 @@
+{
+  "name": "assignment3",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^20.3.5",
+    "@angular/compiler": "^20.3.5",
+    "@angular/core": "^20.3.5",
+    "@angular/forms": "^20.3.5",
+    "@angular/platform-browser": "^20.3.5",
+    "@angular/platform-browser-dynamic": "^20.3.5",
+    "@angular/router": "^20.3.5",
+    "boostrap": "^2.0.0",
+    "bootstrap": "^5.3.8",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.6",
+    "@angular/cli": "^20.3.6",
+    "@angular/compiler-cli": "^20.3.5",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.6.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.1.10",
+    "typescript": "~5.9.3"
+  },
+  "description": "This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.17.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

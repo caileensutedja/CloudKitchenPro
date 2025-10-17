@@ -1,0 +1,48 @@
+<p>login works!</p>
+
+<div class="container">
+    @if(successMessage.length > 0){
+        <div class="alert alert-success">
+            {{successMessage}}
+        </div>
+    }
+    @if(errorMessage.length > 0){
+        <div class="alert alert-danger">
+            <h4>Input Errors:</h4>
+            @for(error of errorMessage; track $index){
+                <li>{{error}}</li>
+            }
+        </div>
+    }
+    <div class="card shadow p-3 mb-3 w-50 mx-auto">
+        <div class="text-center">
+            <h2 style="font-weight: bold;">
+                Login
+            </h2>
+        </div>
+        <!-- Form to add new recipe -->
+            <!-- Email input field -->
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold fs-5">Email</label>
+                <p>Enter your email address:</p>
+                <input type="text" class="form-control" id="email" name="email" placeholder="e.g. john.doe@student.monash.edu" [(ngModel)]="user.email" required>
+            </div>
+
+            <!-- Password input field -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold fs-5">Password</label>
+                <p>Enter your password:</p>
+                <input type="password" minlength=8 class="form-control" id="password" name="password" [(ngModel)]="user.password" required>
+            </div>        
+        <div class="text-center">
+            <!-- Submit button to send post request -->
+            <button (click)="login()" class="btn btn-primary">Login</button>
+        </div>
+
+    <!-- Button to register instead -->
+    <div style="text-align: center;" class="md-3">
+       <span>Don't have an account? <a [routerLink]="['/34375783/user/register']">Register Here!</a></span>
+    </div>
+</div>
+
+</div>

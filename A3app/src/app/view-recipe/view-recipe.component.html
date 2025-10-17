@@ -1,0 +1,65 @@
+<p>view-recipe works!</p>
+
+<div class="row">
+    <div class="text-center">
+        <h2 style="font-weight: bold;">
+            &#128214;Recipe Collection&#128214;
+        </h2>
+        <div style="text-align: right;" class="md-3">
+            <a href="/34375783/recipe/add"><button class="btn btn-dark">Add Recipe</button></a>
+        </div>
+    </div>
+    <h6 class="text-center">Total recipes in collection: ?? fill ltr</h6>
+
+    <!-- Recipe Collection -->
+    <div class="container">
+        <h2>All Recipes:</h2>
+        <!-- For message of addition and deletion -->
+        <!-- <% if (typeof message !== 'undefined' && message) { %>
+            <div class="alert alert-success"><p>?? Message here</p></div>
+        <% } %> -->
+        @if(recipes.length === 0) {
+            <p class="text-muted">No recipes available.</p>
+        }@else{
+            <!-- Display recipes in a Bootstrap table -->
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Recipe ID</th>
+                        <th>User ID</th>
+                        <th>Title</th>
+                        <th>Chef</th>
+                        <th>Ingredients</th>
+                        <th>Instructions</th>
+                        <th>Meal Type</th>
+                        <th>Cuisine Type</th>
+                        <th>Preparation Time (minutes)</th>
+                        <th>Difficulty Level</th>
+                        <th>Servings</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(recipe of recipes; track $index){
+                        <tr>
+                            <td>{{recipe.recipeId}}</td>
+                            <td>{{recipe.userId}}</td>
+                            <td>{{recipe.title}}</td>
+                            <td>{{recipe.chef}}</td>
+                            <td>{{recipe.ingredients}}</td>
+                            <td>{{recipe.instructions}}</td>
+                            <td>{{recipe.mealType}}</td>
+                            <td>{{recipe.cuisineType}}</td>
+                            <td>{{recipe.prepTime}}</td>
+                            <td>{{recipe.difficulty}}</td>
+                            <td>{{recipe.servings}}</td>
+                            <td>{{recipe.createdAt}}</td>
+                            <td>Action</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

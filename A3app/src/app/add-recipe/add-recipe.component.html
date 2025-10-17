@@ -1,0 +1,86 @@
+<p>add-recipe works!</p>
+
+<div class="container">
+    <!-- <% if (message) { %>
+            <div class="alert alert-danger">
+                <p><%- message %></p>
+            </div>
+        <% } %> -->
+    
+    <div class="card shadow p-3 mb-3">
+        <div class="text-center">
+            <h2 style="font-weight: bold;">
+                &#128395;Add Recipe to Collection&#128395;
+            </h2>
+        </div>
+
+        <!-- Title input field -->
+        <div class="mb-3">
+            <label for="title" class="form-label fw-bold fs-5">Title</label>
+            <input type="text" minlength=3 maxlength=100 class="form-control" id="title" placeholder="Name of the recipe" name="title" [(ngModel)]="recipe.title" required>
+        </div>    
+
+        <!-- Ingredients input field -->
+        <div class="mb-3">
+            <label for="ingredients" class="form-label fw-bold fs-5">Ingredients</label>
+            <p>Enter each ingredient seperated by a comma including [quantity][unit] [name] or [quantity] [name].</p>
+            <p>Enter at least 1 ingredient, and maximum of 20 ingredients.</p>
+
+            <input type="text" class="form-control" id="ingredients" placeholder="e.g. 2 eggs, 200 ml milk" name="ingredients" [(ngModel)]="recipe.ingredients" required>
+        </div>  
+
+        <!-- Instructions input field -->
+        <div class="mb-3">
+            <label for="instructions" class="form-label fw-bold fs-5">Instructions</label>
+            <p>Provide clear, step-by-step cooking instructions seperated by comma.</p>
+            <p>Maximum 15 steps, with each step with at least 10 characters</p>
+            <input type="text" class="form-control" id="instructions" name="instructions" [(ngModel)]="recipe.instructions" required>
+        </div>  
+
+        <!-- Meal Type input field -->
+        <div class="mb-3">
+            <label for="mealType" class="form-label fw-bold fs-5">Meal Type</label>
+            <select name="mealType" class="form-control" id="mealType" [(ngModel)]="recipe.mealType" required>
+                <option value="">-Select meal type-</option>
+                <option *ngFor="let type of mealTypes" [value]="type">{{ type }}</option>
+            </select>
+        </div>  
+        
+        <!-- Cuisine Type input field -->
+        <div class="mb-3">
+            <label for="cuisineType" class="form-label fw-bold fs-5">Cuisine Type</label>
+            <select type="text" class="form-control" id="cuisineType" name="cuisineType" [(ngModel)]="recipe.cuisineType" required>
+                <option value="">-Select cuisine type-</option>  
+                <option *ngFor="let cuisine of cuisingTypes" [value]="cuisine">{{ cuisine }}</option>
+            </select>
+        </div>  
+
+        <!-- Prep Time input field -->
+        <div class="mb-3">
+            <label for="prepTime" class="form-label fw-bold fs-5">Preparation Time (minutes)</label>
+            <input type="number" min=0 step=1 max=480 class="form-control" id="prepTime" name="prepTime" [(ngModel)]="recipe.prepTime" required>
+        </div>  
+
+        <!-- Difficulty input field -->
+        <div class="mb-3">
+            <label for="difficulty" class="form-label fw-bold fs-5">Difficulty</label>
+            <p>Difficulty level of the Recipe.</p>
+            <select name="difficulty" class="form-control" id="difficulty" [(ngModel)]="recipe.difficulty" required>
+                <option value="">-Select difficulty level-</option>
+                <option *ngFor="let level of difficultyLevels" [value]="level">{{ level }}</option>
+            </select>
+        </div>  
+
+        <!-- Servings input field -->
+        <div class="mb-3">
+            <label for="servings" class="form-label fw-bold fs-5">Servings</label>
+            <p>Recipe's number of servings.</p>
+            <input type="number" min=1 step=1 max=20 class="form-control" id="servings" name="servings" [(ngModel)]="recipe.servings" required>
+        </div>  
+
+        <div class="text-center">
+            <!-- Submit button to send post request -->
+            <button (click)="addRecipe()" class="btn btn-primary">Add Recipe</button>
+        </div>
+</div>
+</div>

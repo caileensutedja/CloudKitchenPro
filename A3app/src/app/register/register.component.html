@@ -1,0 +1,70 @@
+<p>register works!</p>
+
+<div class="container">
+    @if(errorMessage.length > 0){
+        <div class="alert alert-danger">
+            <h4>Input Errors:</h4>
+            @for(error of errorMessage; track $index){
+                <li>{{error}}</li>
+            }
+        </div>
+    }
+    <div class="container">
+        <div class="card shadow p-3 mb-3 w-50 mx-auto">
+            <div class="text-center">
+                <h2 style="font-weight: bold;">
+                    Register
+                </h2>
+            </div>
+                <!-- Email input field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-bold fs-5">Email</label>
+                    <p>Email address of the user.</p>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="e.g. john.doe@student.monash.edu" [(ngModel)]="user.email" required>
+                </div>
+
+                <!-- Password input field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label fw-bold fs-5">Password</label>
+                    <p>Minimum 8 characters, must contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>
+                    <input type="password" class="form-control" minlength=8 id="password" name="password" [(ngModel)]="user.password" required>
+                </div>
+
+                <!-- Fullname input field -->
+                <div class="mb-3">
+                    <label for="fullname" class="form-label fw-bold fs-5">Full Name</label>
+                    <p>Minimum 2 characters, maximum 100 characters, no numbers or special characters except spaces, hyphens, and apostrophes</p>
+                    <input type="text" minlength=2 maxlength=100 class="form-control" id="fullname" name="fullname" placeholder="e.g. John Doe" [(ngModel)]="user.fullname" required>
+                </div>
+
+                <!-- Role input field -->
+                <div class="mb-3">
+                    <label for="role" class="form-label fw-bold fs-5">Role</label>
+                    <select name="role" class="form-control" id="role" [(ngModel)]="user.role" required>
+                        <option value="">-Select role-</option>
+                        <option value="admin">admin</option>
+                        <option value="chef">chef</option>
+                        <option value="manager">manager</option>
+                    </select>
+                </div>  
+
+                <!-- Phone number input field -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label fw-bold fs-5">Phone</label>
+                    <p>Enter phone number with an Australian country code +61</p>
+                    <input type="phone" minlength=12 class="form-control" id="phone" placeholder="e.g. +61012345678" name="phone" [(ngModel)]="user.phone" required>
+                </div>  
+        
+                <div class="text-center">
+                    <!-- Submit button to send post request -->
+                    <button (click)="register()" class="btn btn-primary" style="text-align: left">Register</button>
+                </div>
+
+            <!-- Button to sign in instead -->
+            <div style="text-align: center;" class="md-3">
+                <span>Already have an account? <a [routerLink]="['/34375783/user/login']">Login Here!</a></span>
+            </div>
+        </div>
+    </div>
+
+</div>
