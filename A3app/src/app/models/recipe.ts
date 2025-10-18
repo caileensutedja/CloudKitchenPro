@@ -22,6 +22,10 @@ export class Recipe {
     difficulty: string;
     servings: number;
     createdAt: string;
+    userIdString: string;
+    ingredientsString: string;
+    instructionsString: string;
+    createdAtString: string;
     constructor(){
         this.recipeId = '';
         this.userId = '';
@@ -34,6 +38,10 @@ export class Recipe {
         this.prepTime = 0;
         this.difficulty = '';
         this.servings = 1;
-        this.createdAt = '20-10-2025';
+        this.createdAt = '';
+        this.userIdString = '';
+        this.ingredientsString = '';
+        this.instructionsString = '';
+        this.createdAtString = '';
     }
 }

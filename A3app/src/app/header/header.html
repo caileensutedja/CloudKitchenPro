@@ -1,3 +1,13 @@
+<!-- This partial contains the HTML head and navigation that appears on every page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap static css -->
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+
+</head>
 <p>HEADER</p>
 <a routerLink="/34375783/user/login" style="margin-right: 20px;">Login</a>
 <a routerLink="/34375783/user/register" style="margin-right: 20px;">Register</a>
@@ -9,7 +19,6 @@
 <a routerLink="/34375783/recipe/view" style="margin-right: 20px;">View Recipe</a>
 <a routerLink="/34375783/recipe/delete" style="margin-right: 20px;">Delete Recipe</a>
 <a routerLink="/34375783/dashboard" style="margin-right: 20px;">Dashboard</a>
-
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
@@ -41,35 +50,33 @@
 
           <!-- Inventory dropdown (visible to chef, admin, manager) -->
           @if (auth.role === 'chef' || auth.role === 'admin' || auth.role === 'manager') {
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown">
-                Inventory
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="inventoryDropdown">
-                <li><a class="dropdown-item" routerLink="/34375783/inventory/add">Add Inventory</a></li>
-                <li><a class="dropdown-item" routerLink="/34375783/inventory/view">View Inventory</a></li>
-                <li><a class="dropdown-item" routerLink="/34375783/inventory/delete">Delete Inventory</a></li>
-              </ul>
+            <li class="nav-item">
+                  <a class="navbar-brand fs-5" id="inventoryDropdown" role="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">Inventory &#9662;</a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="inventoryDropdown">
+                      <li><a class="dropdown-item" routerLink="/34375783/inventory/add">Add Inventory</a></li>
+                      <li><a class="dropdown-item" routerLink="/34375783/inventory/view">View Inventory</a></li>
+                      <li><a class="dropdown-item" routerLink="/34375783/inventory/delete">Delete Inventory</a></li>
+                  </ul>
             </li>
           }
 
           <!-- Recipe dropdown (chef only) -->
           @if (auth.role === 'chef') {
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="recipeDropdown" role="button" data-bs-toggle="dropdown">
-                Recipes
-              </a>
-              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="recipeDropdown">
-                <li><a class="dropdown-item" routerLink="/34375783/recipe/add">Add Recipe</a></li>
-                <li><a class="dropdown-item" routerLink="/34375783/recipe/view">View Recipe</a></li>
-                <li><a class="dropdown-item" routerLink="/34375783/recipe/delete">Delete Recipe</a></li>
-              </ul>
+            <li class="nav-item">
+                  <a class="navbar-brand fs-5" id="recipesDropdown" role="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">Recipes &#9662;</a>
+                  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="recipesDropdown">
+                      <li><a class="dropdown-item" routerLink="/34375783/recipe/add">Add Recipe</a></li>
+                    <li><a class="dropdown-item" routerLink="/34375783/recipe/view">View Recipe</a></li>
+                    <li><a class="dropdown-item" routerLink="/34375783/recipe/delete">Delete Recipe</a></li>
+                  </ul>
             </li>
           }
 
-          <!-- Dashboard (visible to everyone logged in) -->
+          <!-- Dashboard -->
           <li class="nav-item">
-            <a class="nav-link" routerLink="/34375783/dashboard">Dashboard</a>
+            <a class="navbar-brand fs-5" routerLink="/34375783/dashboard">Dashboard</a>
           </li>
 
           <!-- Logout button -->
@@ -81,3 +88,4 @@
     </div>
   </div>
 </nav>
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

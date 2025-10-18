@@ -6,34 +6,21 @@ const User = require('../models/user');
 // ============================================
 module.exports = {
     getCreateRecipe: async function (req, res){
-    //     try {
-    //     const { role, userId, fullname, email } = req.query;
-    //     res.render('add-recipe', {
-    //         role, 
-    //         userId, 
-    //         fullname, 
-    //         email,
-    //         message: null
-    //     });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).render("404", {errorMsg: 'Server Error'})
-    // }
         res.status(500).json({ errorMsg: 'Angular frontend error' });
-
     },
     createRecipe: async function(req, res){
         try {
-            let { role, userId, fullname, email } = req.query;
-            let { title, ingredients, instructions, mealType, cuisineType, prepTime, difficulty, servings} = req.body;
+            const { recipe, user } = req.body;
+            // let { role, userId, fullname, email } = req.query;
+            let { title, ingredients, instructions, mealType, cuisineType, prepTime, difficulty, servings} = recipe;
             let recipeId = await nextRecipeId();
 
             // Verify user ID exists - userId
-            let user = await User.findOne({userId: userId});
+            let userFound = await User.findOne({userId: user.userId});
             if (!user) {
-                return res.status(400).send('Selected user ID does not exist');
+                return res.status(400).json({error: 'Selected user ID does not exist'});
             }
-            let chef = fullname;
+            let chef = user.fullname;
 
             // Ingredients
             // Trim to remove excess whitespace and filters empty objects in the array
@@ -45,7 +32,7 @@ module.exports = {
 
             let newRecipe = new Recipe({
             recipeId,
-            userId: user._id,
+            userId: userFound._id,
             title,
             chef,
             ingredients,
@@ -57,53 +44,32 @@ module.exports = {
             servings
             });
             await newRecipe.save();
-            let message=  `Recipe ${newRecipe.recipeId} added!`
-            res.redirect(`/34375783/recipe/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
-
+            res.status(200).json({message: `Recipe ${newRecipe.recipeId} added!`, newRecipe})
+            // res.redirect(`/34375783/recipe/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
         } catch (error) {
             console.error(error);
 
             // Handle Mongoose validation errors
             if (error.name === 'ValidationError') {
-                let { role, userId, fullname, email } = req.query;
-
                 const errors = Object.values(error.errors).map(err => err.message);
-                const errorMessage = '*' + errors.join('<br>*');
-                
-                return res.render('add-recipe', {
-                    role, 
-                    userId, 
-                    fullname, 
-                    email,
-                    message: errorMessage
-                });
+                return res.status(400).json({error: errors})
             }
 
             // Handle duplicate key error (11000 is the code for duplicates)
             if (error.code === 11000) {
-                let { role, userId, fullname, email } = req.query;
-                const nextId = await nextRecipeId();
-                const users = await User.find({}).sort({ userId: 1,  fullname: 1});
-
-                const dupField = Object.keys(error.keyValue)[0]; // Field of duplicate
-                const dupValue = error.keyValue[dupField]; // Value of duplicate
-                const errorMessage = `Duplicate recipe ${dupField}: "${dupValue}" already exists for this user, please try again`;
-                return res.render('add-recipe', {
-                    role,
-                    userId,
-                    fullname,
-                    email,
-                    message: errorMessage,
-                    nextRecipeId: nextId,
-                    users: users
-                });
+                const title = error.keyValue.title; // Field of duplicate
+                const errorMessage = `Duplicate recipe "${title}" already exists for this user, please try again`;
+                return res.status(400).json({
+                    error: [errorMessage]
+                })
             }
-            res.status(500).render("404", {errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     },
     getViewRecipe: async function(req, res){
         try {
-            const { role, userId, fullname, email } = req.query;
+
+            // const { role, userId, fullname, email } = req.query;
 
             let recipes = await Recipe.find().populate("userId")
             let count = await Recipe.countDocuments();
@@ -111,20 +77,25 @@ module.exports = {
             recipes = recipes.map(recipe => {
                 return {
                     ...recipe.toObject(),
+                    userIdString: recipe.userId.userId,
                     ingredientsString: recipe.ingredients.map(each => `${each.quantity}${each.unit} ${each.name}`).join('<br>'),
                     instructionsString: recipe.instructions.join('<br>'),
                     createdAtString: recipe.createdAt.toISOString().split('T')[0]
                 };
                 });
-            res.render('view-recipe', {
-                role, userId, fullname, email,
+            res.status(200).json({
                 count,
-                message: null,
                 recipes: recipes
-            });
+            })
+            // res.render('view-recipe', {
+            //     role, userId, fullname, email,
+            //     count,
+            //     message: null,
+            //     recipes: recipes
+            // });
         } catch (error) {
             console.error(error);
-            res.status(500).render("404", {errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     },
     getDeleteRecipe: async function(req, res){
@@ -141,16 +112,16 @@ module.exports = {
                     createdAtString: recipe.createdAt.toISOString().split('T')[0]
                 };
                 });
-            res.render('delete-recipe', {
-                role, 
-                userId, 
-                fullname, 
-                email,
+            // res.render('delete-recipe', {
+                
+            //     recipes
+            // });
+            res.status(200).json({
                 recipes
-            });
+            })
         } catch (error) {
             console.error(error);
-            res.status(500).render("404", {errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     },
     deleteRecipe: async function (req, res) {
@@ -161,15 +132,17 @@ module.exports = {
             // Verify recipe ID exists - recipeId
             let recipeDeleted = await Recipe.findByIdAndDelete(deleteRecipeId);
             if (!recipeDeleted) {
-                return res.status(404).send('Recipe is not found');
+                return res.status(404).json({message: 'Recipe is not found'});
             }
-
-            let message = `Recipe ${recipeDeleted.recipeId} deleted!`
-            res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
+            res.status(200).json({
+                message: `Recipe ${recipeDeleted.recipeId} deleted!`
+            })
+            // let message = `Recipe ${recipeDeleted.recipeId} deleted!`
+            // res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
 
         } catch (error) {
             console.error(error);
-            res.status(500).render("404", {errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     },
     getEditRecipe: async function (req, res){
@@ -177,16 +150,19 @@ module.exports = {
             const { role, userId, fullname, email, editId} = req.query;
             const recipe = await Recipe.findById(editId);
             if (!recipe) {
-                return res.status(404).send('Recipe is not found');
+                return res.status(404).json({message: 'Recipe is not found'});
             }
             recipe.ingredientsString = recipe.ingredients
                 .map(each => `${each.quantity}${each.unit} ${each.name}`)
                 .join(', ');
             recipe.instructionsString = recipe.instructions.join(', ');
-            res.render('edit-recipe', { role, userId, fullname, email, recipe });
+            res.status(200).json({
+                recipe
+            })
+            // res.render('edit-recipe', { role, userId, fullname, email, recipe });
         } catch (error) {
             console.error(error);
-            res.status(500).send('Server Error');
+            res.status(500).json({error: 'Server Error'})
         }
     },
     editRecipe: async function (req, res) {
@@ -198,7 +174,6 @@ module.exports = {
             ingredients = rawIngredients.map(parseIngredient);
             // Instructions
             instructions = instructions.split(",").map(instruction => instruction.trim()).filter(instruction => instruction !== "");
-            console.og
             const updateRecipe = await Recipe.findByIdAndUpdate(
                 editId,
                 {
@@ -217,63 +192,75 @@ module.exports = {
                 }
             );
             if (!updateRecipe) {
-                return res.status(404).send('Recipe not found');
+                return res.status(404).json({message: 'Recipe is not found'});
             }
-            let message = `Recipe ${updateRecipe.recipeId} updated!`
-            res.redirect(`/34375783/recipe/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
+            res.status(200).json({
+                message: `Recipe ${updateRecipe.recipeId} updated!`
+            })
+            // res.redirect(`/34375783/recipe/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
 
         } catch (error) {
             console.error(error);
 
             // Handle Mongoose validation errors
             if (error.name === 'ValidationError') {
-                let { role, userId, fullname, email } = req.query;
-                let {editId} = req.body;
-                // const users = await User.find({}).sort({ userId: 1,  fullname: 1});
-                const recipe = await Recipe.findById(editId);
-                if (recipe) {
-                    recipe.ingredientsString = recipe.ingredients
-                        .map(each => `${each.quantity}${each.unit} ${each.name}`)
-                        .join(', ');
-                    recipe.instructionsString = recipe.instructions.join(', ');
-                }
                 const errors = Object.values(error.errors).map(err => err.message);
                 const errorMessage = '*' + errors.join('<br>*');
                 
-                return res.render('edit-recipe', {
-                    role, 
-                    userId, 
-                    fullname, 
-                    email,
-                    message: errorMessage,
-                    recipe
+                return res.status(400).json({
+                    error: errorMessage,
                 });
             }
+            //     let {editId} = req.body;
+            //     // const users = await User.find({}).sort({ userId: 1,  fullname: 1});
+            //     const recipe = await Recipe.findById(editId);
+            //     if (recipe) {
+            //         recipe.ingredientsString = recipe.ingredients
+            //             .map(each => `${each.quantity}${each.unit} ${each.name}`)
+            //             .join(', ');
+            //         recipe.instructionsString = recipe.instructions.join(', ');
+            //     }
+            //     const errors = Object.values(error.errors).map(err => err.message);
+            //     const errorMessage = '*' + errors.join('<br>*');
+                
+            //     return res.render('edit-recipe', {
+                    
+            //         message: errorMessage,
+            //         recipe
+            //     });
+            // }
 
             // Handle duplicate key error (11000 is the code for duplicates)
             if (error.code === 11000) {
-                let { role, userId, fullname, email } = req.query;
-                const recipe = await Recipe.findById(editId);
-                if (recipe) {
-                    recipe.ingredientsString = recipe.ingredients
-                        .map(each => `${each.quantity}${each.unit} ${each.name}`)
-                        .join(', ');
-                    recipe.instructionsString = recipe.instructions.join(', ');
-                }
+                // let { role, userId, fullname, email } = req.query;
+                // const recipe = await Recipe.findById(editId);
+                // if (recipe) {
+                //     recipe.ingredientsString = recipe.ingredients
+                //         .map(each => `${each.quantity}${each.unit} ${each.name}`)
+                //         .join(', ');
+                //     recipe.instructionsString = recipe.instructions.join(', ');
+                // }
 
-                const dupField = Object.keys(error.keyValue)[0]; // Field of duplicate
-                const dupValue = error.keyValue[dupField]; // Value of duplicate
+                // const dupField = Object.keys(error.keyValue)[0]; // Field of duplicate
+                // const dupValue = error.keyValue[dupField]; // Value of duplicate
+                // const errorMessage = `Duplicate recipe ${dupField}: "${dupValue}" already exists for this user, please try again`;
+                // return res.render('edit-recipe', {
+                //     role, 
+                //     userId, 
+                //     fullname, 
+                //     email,
+                //     message: errorMessage,
+                //     recipe
+                // });
+                const dupField = Object.keys(error.keyValue)[0];
+                const dupValue = error.keyValue[dupField];
                 const errorMessage = `Duplicate recipe ${dupField}: "${dupValue}" already exists for this user, please try again`;
-                return res.render('edit-recipe', {
-                    role, 
-                    userId, 
-                    fullname, 
-                    email,
-                    message: errorMessage,
-                    recipe
+
+                return res.status(400).json({
+                    error: errorMessage
                 });
             }
-            res.status(500).render("404", {errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     }
 };

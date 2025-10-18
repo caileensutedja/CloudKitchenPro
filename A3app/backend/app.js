@@ -14,12 +14,12 @@ const PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/css", express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")));
-// app.use("/js", express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")));
+app.use("/css", express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")));
+app.use("/js", express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")));
 
 // USE BOOTSTRAP
-// app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap')));
-// app.use('/bootstrap-icons', express.static(path.join(__dirname, 'node_modules/bootstrap-icons')));
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap')));
+app.use('/bootstrap-icons', express.static(path.join(__dirname, 'node_modules/bootstrap-icons')));
 
 // USE PUBLIC FOLDER FILES
 app.use(express.static('./dist/assignment3/browser'));
@@ -27,10 +27,11 @@ app.use(express.static('./dist/assignment3/browser'));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'assignment3', 'browser', 'index.html'));
 });
+// app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
-// app.use(express.static('public'));
-// app.use(express.static("public/imgs"));
-// app.use(express.static("public/css"));
+app.use(express.static('public'));
+app.use(express.static("public/imgs"));
+app.use(express.static("public/css"));
 
 // Set EJS as templating engine
 app.set('view engine', 'ejs');
@@ -44,16 +45,16 @@ const userRouter = require('./routes/userRoutes');
 app.use('/34375783/user', userRouter)
 
 // // RECIPE
-// const recipeRouter = require('./routes/recipeRoutes');
-// app.use('/34375783/recipe', recipeRouter)
+const recipeRouter = require('./routes/recipeRoutes');
+app.use('/34375783/recipe', recipeRouter)
 
 // // INVENTORY
-// const inventoryRouter = require('./routes/inventoryRoutes');
-// app.use('/34375783/inventory', inventoryRouter)
+const inventoryRouter = require('./routes/inventoryRoutes');
+app.use('/34375783/inventory', inventoryRouter)
 
 // //OTHERS
-// const otherRouter = require('../../../before/other');
-// app.use('/34375783', otherRouter)
+const otherRouter = require('./routes/otherRoutes');
+app.use('/34375783', otherRouter)
 
 // ============================================
 // ROUTES
@@ -63,10 +64,10 @@ app.use('/34375783/user', userRouter)
 // app.get("/34375783", function (req, res) {
 // 	res.render("login", {message: null});
 // });
-// // If base root is allowed
-// app.get("/", function (req, res) {
-// 	res.render("login", {message: null});
-// });
+// If base root is allowed
+app.get("/", function (req, res) {
+	res.render("login", {message: null});
+});
 
 /**
  * Error endpoint

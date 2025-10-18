@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const API_URL = "/recipe";
+const API_URL = "/34375783/recipe";
 
 const httpOptions = {
   headers: new HttpHeaders({

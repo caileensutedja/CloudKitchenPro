@@ -1,12 +1,19 @@
 <p>add-recipe works!</p>
 
 <div class="container">
-    @if(message !== ''){
+    <!-- @if(message !== ''){
             <div class="alert alert-success">
                 {{message}}
             </div>
-        }
-    
+        } -->
+    @if(errorMessage.length > 0){
+        <div class="alert alert-danger">
+            <h4>Input Errors:</h4>
+            @for(error of errorMessage; track $index){
+                <li>{{error}}</li>
+            }
+        </div>
+    }
     <div class="card shadow p-3 mb-3">
         <div class="text-center">
             <h2 style="font-weight: bold;">
@@ -42,7 +49,9 @@
             <label for="mealType" class="form-label fw-bold fs-5">Meal Type</label>
             <select name="mealType" class="form-control" id="mealType" [(ngModel)]="recipe.mealType" required>
                 <option value="">-Select meal type-</option>
-                <option *ngFor="let type of mealTypes" [value]="type">{{ type }}</option>
+                    @for (type of mealTypes; track type) {
+                        <option [value]="type">{{ type }}</option>
+                    }
             </select>
         </div>  
         
@@ -51,7 +60,9 @@
             <label for="cuisineType" class="form-label fw-bold fs-5">Cuisine Type</label>
             <select type="text" class="form-control" id="cuisineType" name="cuisineType" [(ngModel)]="recipe.cuisineType" required>
                 <option value="">-Select cuisine type-</option>  
-                <option *ngFor="let cuisine of cuisingTypes" [value]="cuisine">{{ cuisine }}</option>
+                @for (cuisine of cuisineTypes; track cuisine) {
+                    <option [value]="cuisine">{{ cuisine }}</option>
+                }
             </select>
         </div>  
 
@@ -67,7 +78,9 @@
             <p>Difficulty level of the Recipe.</p>
             <select name="difficulty" class="form-control" id="difficulty" [(ngModel)]="recipe.difficulty" required>
                 <option value="">-Select difficulty level-</option>
-                <option *ngFor="let level of difficultyLevels" [value]="level">{{ level }}</option>
+                    @for (level of difficultyLevels; track level) {
+                        <option [value]="level">{{ level }}</option>
+                    }
             </select>
         </div>  
 

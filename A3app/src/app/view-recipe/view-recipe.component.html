@@ -1,15 +1,14 @@
-<p>view-recipe works!</p>
-
 <div class="row">
     <div class="text-center">
         <h2 style="font-weight: bold;">
             &#128214;Recipe Collection&#128214;
         </h2>
         <div style="text-align: right;" class="md-3">
-            <a href="/34375783/recipe/add"><button class="btn btn-dark">Add Recipe</button></a>
+            <button class="btn btn-dark" routerLink="/34375783/recipe/add">Add Recipe</button>
+
         </div>
     </div>
-    <h6 class="text-center">Total recipes in collection: ?? fill ltr</h6>
+    <h6 class="text-center">Total recipes in collection: {{count}}</h6>
 
     <!-- Recipe Collection -->
     <div class="container">
@@ -17,6 +16,11 @@
         @if(message !== ''){
             <div class="alert alert-success">
                 {{message}}
+            </div>
+        }
+        @if(errorMessage !== ''){
+            <div class="alert alert-danger">
+                {{errorMessage}}
             </div>
         }
         <!-- For message of addition and deletion -->
@@ -49,17 +53,17 @@
                     @for(recipe of recipes; track $index){
                         <tr>
                             <td>{{recipe.recipeId}}</td>
-                            <td>{{recipe.userId}}</td>
+                            <td>{{recipe.userIdString}}</td>
                             <td>{{recipe.title}}</td>
                             <td>{{recipe.chef}}</td>
-                            <td>{{recipe.ingredients}}</td>
-                            <td>{{recipe.instructions}}</td>
+                            <td [innerHTML]="recipe.ingredientsString"></td>
+                            <td [innerHTML]="recipe.instructionsString"></td>
                             <td>{{recipe.mealType}}</td>
                             <td>{{recipe.cuisineType}}</td>
                             <td>{{recipe.prepTime}}</td>
                             <td>{{recipe.difficulty}}</td>
                             <td>{{recipe.servings}}</td>
-                            <td>{{recipe.createdAt}}</td>
+                            <td>{{recipe.createdAtString}}</td>
                             <td>Action</td>
                         </tr>
                     }
