@@ -29,7 +29,7 @@ export class AddRecipeComponent {
         console.log(data);
         this.router.navigate(
           ["/34375783/recipe/view"],
-        {state: {message: 'Recipe is successfully added!'}});
+          {state: {message: 'Recipe is successfully added!'}});
       },
       error:(error) => {
         this.errorMessage = error.error.error || [error.error.error || 'Failed to create new recipe, please try again.']

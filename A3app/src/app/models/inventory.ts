@@ -6,9 +6,12 @@ export class Inventory {
     unit: string;
     category: string;
     purchaseDate: string;
-    expiration: string;
+    expirationDate: string;
     location: string;
     cost: number;
+    daysLeft: number;
+    soonExpired: boolean;
+    createdAt: string;
     constructor(){
         this.inventoryId = '';
         this.userId = '';
@@ -17,8 +20,12 @@ export class Inventory {
         this.unit = '';
         this.category = '';
         this.purchaseDate = '';
-        this.expiration = '';
+        this.expirationDate = '';
         this.location = '';
         this.cost = 0;
+        this.daysLeft = 0;
+        this.soonExpired = false;
+        this.createdAt = '';
     }
 }
+

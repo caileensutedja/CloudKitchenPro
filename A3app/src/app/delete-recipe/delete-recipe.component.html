@@ -7,12 +7,19 @@
             </h2>
             <p>Delete your recipe from the collection.</p>
         </div>
+
+        @if(errorMessage.length > 0){
+        <div class="alert alert-danger">
+            {{errorMessage}}
+            
+        </div>
+    }
    
         <div class="mb-3">
             <label for="deleteRecipeId" class="form-label">Select Recipe:</label>
             <select id="deleteRecipeId" [(ngModel)]="deleteRecipeId" class="form-select">
             @for (recipe of recipes; track recipe.recipeId) {
-                <option [value]="recipe.recipeId">{{ recipe.recipeId }} - {{ recipe.title }}</option>
+                <option [value]="recipe._id">{{ recipe.recipeId }} - {{ recipe.title }}</option>
             }
             </select>
         </div>
@@ -41,7 +48,7 @@
     @if(recipes.length === 0) {
             <p class="text-muted">No recipes available.</p>
         }@else{
-            Display recipes in a Bootstrap table
+            <!-- Display recipes in a Bootstrap table -->
             <table class="table table-striped">
                 <thead class="table-dark">
                     <tr>
@@ -64,17 +71,17 @@
                     @for(recipe of recipes; track $index){
                         <tr>
                             <td>{{recipe.recipeId}}</td>
-                            <td>{{recipe.userId}}</td>
+                            <td>{{recipe.userIdString}}</td>
                             <td>{{recipe.title}}</td>
                             <td>{{recipe.chef}}</td>
-                            <td>{{recipe.ingredients}}</td>
-                            <td>{{recipe.instructions}}</td>
+                            <td [innerHTML]="recipe.ingredientsString"></td>
+                            <td [innerHTML]="recipe.instructionsString"></td>
                             <td>{{recipe.mealType}}</td>
                             <td>{{recipe.cuisineType}}</td>
                             <td>{{recipe.prepTime}}</td>
                             <td>{{recipe.difficulty}}</td>
                             <td>{{recipe.servings}}</td>
-                            <td>{{recipe.createdAt}}</td>
+                            <td>{{recipe.createdAtString}}</td>
                             <td>Action</td>
                         </tr>
                     }

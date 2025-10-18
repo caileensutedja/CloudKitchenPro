@@ -68,9 +68,6 @@ module.exports = {
     },
     getViewRecipe: async function(req, res){
         try {
-
-            // const { role, userId, fullname, email } = req.query;
-
             let recipes = await Recipe.find().populate("userId")
             let count = await Recipe.countDocuments();
             // Turn it back to human readable form
@@ -87,12 +84,6 @@ module.exports = {
                 count,
                 recipes: recipes
             })
-            // res.render('view-recipe', {
-            //     role, userId, fullname, email,
-            //     count,
-            //     message: null,
-            //     recipes: recipes
-            // });
         } catch (error) {
             console.error(error);
             res.status(500).json({error: 'Server Error'})
@@ -100,22 +91,23 @@ module.exports = {
     },
     getDeleteRecipe: async function(req, res){
         try {
-            const { role, userId, fullname, email } = req.query;
-            let user = await User.findOne({userId: userId});
-            let recipes = await Recipe.find({userId: user._id}).sort({ recipeId: 1}).populate('userId');
+            const { userId } = req.query;
+            // console.log('user is: ', user)
+            // const { role, userId, fullname, email } = user;
+            // console.log('userId is: ', userId)
+            let userFound = await User.findOne({userId: userId});
+            let recipes = await Recipe.find({userId: userFound._id}).sort({ recipeId: 1}).populate('userId');
             // Turn it back to human readable form
             recipes = recipes.map(recipe => {
                 return {
                     ...recipe.toObject(),
+                    userIdString: recipe.userId.userId,
                     ingredientsString: recipe.ingredients.map(each => `${each.quantity}${each.unit} ${each.name}`).join('<br>'),
                     instructionsString: recipe.instructions.join('<br>'),
                     createdAtString: recipe.createdAt.toISOString().split('T')[0]
                 };
                 });
-            // res.render('delete-recipe', {
-                
-            //     recipes
-            // });
+          
             res.status(200).json({
                 recipes
             })
@@ -126,20 +118,17 @@ module.exports = {
     },
     deleteRecipe: async function (req, res) {
         try {
-            const { role, userId, fullname, email } = req.query;
-            let { deleteRecipeId } = req.body;
-            
+            // const { role, userId, fullname, email } = req.query;
+            // let { deleteRecipeId } = req.params.id;
+            console.log('deleteRecipeId: ', req.params.id)
             // Verify recipe ID exists - recipeId
-            let recipeDeleted = await Recipe.findByIdAndDelete(deleteRecipeId);
+            let recipeDeleted = await Recipe.findByIdAndDelete(req.params.id);
             if (!recipeDeleted) {
-                return res.status(404).json({message: 'Recipe is not found'});
+                return res.status(404).json({error: 'Recipe is not found'});
             }
             res.status(200).json({
                 message: `Recipe ${recipeDeleted.recipeId} deleted!`
             })
-            // let message = `Recipe ${recipeDeleted.recipeId} deleted!`
-            // res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
-
         } catch (error) {
             console.error(error);
             res.status(500).json({error: 'Server Error'})

@@ -1,1 +1,183 @@
 <p>view-inventory works!</p>
+
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <link rel="stylesheet" href="/bootstrap-icons/font/bootstrap-icons.css"></link> -->
+
+<div class="row">
+    <div class="text-center">
+        <h2 style="font-weight: bold;">
+            &#128194;Inventory Collection&#128194;
+        </h2>
+        <div style="text-align: right;" class="md-3">
+            <button class="btn btn-dark" routerLink="/34375783/inventory/add">Add Inventory</button>
+        </div>
+        
+    </div>
+
+    <div class="fs-4 text-center" style="font-weight: bold;">
+        &#128176;Total Inventory value: ${{ totalCost }}&#128176;
+    </div><br><br>
+    <h6 class="text-center">Total items in inventory: {{ count }}</h6>
+<!-- Expiry Items -->
+    <div class="container">
+        {{message}}
+        <h2>All Recipes:</h2>
+        @if(errorMessage !== ''){
+            <div class="alert alert-danger">
+                {{errorMessage}}
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-header bg-danger text-white fs-4" style="font-weight: bold;">
+                &#128680;Items Expiring within 3 Days!
+            </div>
+            <div class="card-body">
+                @if(expiringSoon.length === 0){
+                    <p>All inventories expire above 3 days.</p>
+                }@else{
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Location</th>
+                                <th>Expiration Date</th>
+                                <th>Days Left</th>
+                                <th>Value at Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(inventory of expiringSoon; track $index){
+                                <tr>
+                                    <td>{{ inventory.ingredientName }}</td>
+                                    <td>{{ inventory.quantity }} {{ inventory.unit }}</td>
+                                    <td>{{ inventory.location }}</td>
+                                    <td>{{ inventory.expirationDate.toString().split('T')[0] }}</td>
+                                    <td>{{ inventory.daysLeft }}</td>
+                                    <td>$ {{ inventory.cost }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div> <br><br>
+    </div>
+
+    <!-- Low Stock Items -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-warning text-black fs-4" style="font-weight: bold;">
+                &#128201;Low Stock Items (Less than 4 units)!
+            </div>
+            <div class="card-body">
+                @if(lowStock.length === 0){
+                    <p>All stocks are above 4 units.</p>
+                }@else{
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Current Stock</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Cost</th>
+                                <th>Suggested Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(inventory of lowStock; track $index){
+                                <tr>
+                                    <td>{{ inventory.ingredientName }}</td>
+                                    <td>{{ inventory.quantity }} {{ inventory.unit }}</td>
+                                    <td>{{ inventory.category }}</td>
+                                    <td>{{ inventory.location }}</td>
+                                    <td>$ {{ inventory.cost }}</td>
+                                    <td>5 {{ inventory.unit }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div> <br><br>
+    </div>
+
+    <div class="container" style="font-weight: bold;">
+        <h2>All Inventories:</h2>
+    </div>
+
+    <!-- Inventory Collection -->
+    <div class="container">
+        @if(message) {
+            <div class="alert alert-success"><p>{{message}}</p></div>
+        }
+
+        @if (inventoryByCategory.length === 0) {
+            <p class="text-muted">Nothing in inventory.</p>
+        } @else {
+            @for(category of inventoryByCategory; track $index){
+            <h3 class="mt-4" style="font-weight: bold;">{{ category._id }}</h3>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>Inventory ID</th>
+                    <th>User ID</th>
+                    <th>Ingredient Name</th>
+                    <th>Quantity Available</th>
+                    <th>Unit of Measurement</th>
+                    <th>Category</th>
+                    <th>Purchase Date</th>
+                    <th>Expiration Date*</th>
+                    <th>Days Left</th>
+                    <th>Storage Location</th>
+                    <th>Cost</th>
+                    <th>Date Created</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @for(inventory of category.inventory; track $index){
+                    <tr>
+                    <td>{{ inventory.inventoryId }}</td>
+                    <td>{{ inventory.userId }}</td>
+                    <td>{{ inventory.ingredientName }}</td>
+                    <td>{{ inventory.quantity }}</td>
+                    <td>{{ inventory.unit }}</td>
+                    <td>{{ inventory.category }}</td>
+                    <td>{{ inventory.purchaseDate | date:'yyyy-MM-dd' }}</td>
+                    <td [class]="inventory.soonExpired ? 'text-danger' : 'text-dark'">
+                        {{ inventory.expirationDate | date:'yyyy-MM-dd' }}
+                    </td>
+                    <td [class]="inventory.soonExpired ? 'text-danger' : 'text-dark'">
+                        {{ inventory.daysLeft }}
+                    </td>
+                    <td>{{ inventory.location }}</td>
+                    <td>${{ inventory.cost }}</td>
+                    <td>{{ inventory.createdAt | date:'yyyy-MM-dd' }}</td>
+                    <td class="text-center">
+                        <div class="mb-2">
+                        Edit button
+                        </div>
+                        <div>
+                        <!-- <button type="button" class="btn btn-primary me-2" (click)="openConfirmationDialog(confirmationModal)"> -->
+                            Delete button??
+                        <!-- </button> -->
+                        </div>
+                    </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <span><strong>Total {{ category._id }} items: {{ category.categoryCount }}</strong></span>
+            }
+        }
+        </div>
+
+        <p>
+        *<span class="text-danger">Red dates indicate</span>
+        <span class="text-dark"> inventory expiry within 4 days or already expired.</span>
+        </p>
+
+    </div>

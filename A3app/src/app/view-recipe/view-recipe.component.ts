@@ -3,7 +3,7 @@ import { Recipe } from '../models/recipe';
 import { RecipeService } from '../recipe.service';
 import { AuthService } from '../auth-service.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-view-recipe',
@@ -17,7 +17,12 @@ export class ViewRecipeComponent {
   message: string = '';
   errorMessage: string = '';
 
-  constructor(public auth: AuthService, private recipeService: RecipeService){}
+  constructor(
+    public auth: AuthService, 
+    private recipeService: RecipeService, 
+    private router: Router){
+    this.message = this.router.currentNavigation()?.extras.state?.['message'] || '';
+  }
 
   ngOnInit(): void {
     this.recipeService.getRecipe().subscribe({

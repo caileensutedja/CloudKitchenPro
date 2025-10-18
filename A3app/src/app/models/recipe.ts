@@ -10,6 +10,7 @@ export class Ingredient {
 }
 
 export class Recipe {
+    _id: string;
     recipeId: string;
     userId: string;
     title: string;
@@ -27,6 +28,7 @@ export class Recipe {
     instructionsString: string;
     createdAtString: string;
     constructor(){
+        this._id = '';
         this.recipeId = '';
         this.userId = '';
         this.title = '';

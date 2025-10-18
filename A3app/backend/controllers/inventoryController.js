@@ -6,33 +6,22 @@ const User = require('../models/user');
 // ============================================
 module.exports = {
     getCreateUser: async function (req, res){
-        try {
-            const { role, userId, fullname, email } = req.query;
-            res.render('add-inventory', {
-                role, 
-                userId, 
-                fullname, 
-                email,
-                message: null
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).render("404", {errorMsg: 'Server Error'})
-        }
+        res.status(500).json({ errorMsg: 'Angular frontend error' });
     },
     createInventory: async function(req, res){
         try {
-            const { role, userId, fullname, email } = req.query;
-            let { ingredientName, quantity, unit, category, purchaseDate, expirationDate, location, cost} = req.body;
+            const { inventory, user } = req.body;
+            // const { role, userId, fullname, email } = req.query;
+            let { ingredientName, quantity, unit, category, purchaseDate, expirationDate, location, cost} = inventory;
             let inventoryId = await nextInventoryId();
             // Verify user ID exists - userId
-            let user = await User.findOne({userId: userId});
-            if (!user) {
-                return res.status(400).send('Selected user ID does not exist');
+            let userFound = await User.findOne({userId: user.userId});
+            if (!userFound) {
+                return res.status(400).json({error: 'Selected user ID does not exist'});
             }
             let newInventory = new Inventory({
                     inventoryId,
-                    userId: user._id,
+                    userId: userFound._id,
                     ingredientName,
                     quantity,
                     unit,
@@ -43,33 +32,22 @@ module.exports = {
                     cost
                     });
             await newInventory.save();
-            
-            let message = `Inventory ${newInventory.inventoryId} added!`
-            res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
-            
+            res.status(200).json({message: `Inventory ${newInventory.inventoryId} added!`, newInventory})
             } catch (error) {
                 console.error(error);
 
                 // Handle Mongoose validation errors
                 if (error.name === 'ValidationError') {
-                    let { role, userId, fullname, email } = req.query;
                     const errors = Object.values(error.errors).map(err => err.message);
-                    const errorMessage = '*' + errors.join('<br>*');
-                    return res.render("add-inventory", {
-                        role, 
-                        userId, 
-                        fullname, 
-                        email,
-                        message: errorMessage
-                    })
+                    return res.status(400).json({error: errors})
                 }
-                res.status(500).render("404", {errorMsg: 'Server Error'})
+                res.status(500).json({error: 'Server Error'})
             }
     },
     getViewInventory: async function (req, res) {
         try {
-        const { role, userId, fullname, email } = req.query;
-        let message = req.query.message || null;
+        // const { role, userId, fullname, email } = req.query;
+        // let message = req.query.message || null;
         let inventoryByCategory = await Inventory.aggregate([
             // Lookup for the user (like populate)
             {
@@ -160,55 +138,65 @@ module.exports = {
         let inventories = await Inventory.find().populate("userId")
         let totalCost = inventories.reduce((sum, item) => sum + item.cost, 0);
         let count = await Inventory.countDocuments();
-        res.render('view-inventory', {
-            role, userId, fullname, email,
-            count,
-            totalCost,
-            lowStock,
-            expiringSoon,
-            message: message,
-            inventoryByCategory
-        });
+        // res.render('view-inventory', {
+        //     count,
+        //     totalCost,
+        //     lowStock,
+        //     expiringSoon,
+        //     inventoryByCategory
+        // });
+        res.status(200).json({
+                count,
+                totalCost,
+                lowStock,
+                expiringSoon,
+                inventoryByCategory
+            })
     } catch (error) {
         console.error(error);
-        res.status(500).render("404", {errorMsg: 'Server Error'})
+        res.status(500).json({error: 'Server Error'})
     }
     },
     getDeleteInventory: async function (req, res){
         try {
-        const { role, userId, fullname, email } = req.query;
+        // const { role, userId, fullname, email } = req.query;
         let inventories = await Inventory.find().sort({ inventoryId: 1}).populate('userId');
        
-        res.render('delete-inventory', {
-            role, 
-            userId, 
-            fullname, 
-            email,
-            inventories
-        });
+        // res.render('delete-inventory', {
+        //     role, 
+        //     userId, 
+        //     fullname, 
+        //     email,
+        //     inventories
+        // });
+        res.status(200).json({
+                inventories
+            })
     } catch (error) {
         console.error(error);
-        res.status(500).render("404", {errorMsg: 'Server Error'})
+        res.status(500).json({error: 'Server Error'})
     }
     },
     deleteInventory: async function (req, res) {
         try {
-                const { role, userId, fullname, email } = req.query;
-                let { deleteInventoryId } = req.body;
+                // const { role, userId, fullname, email } = req.query;
+                // let { deleteInventoryId } = req.body;
                 
                 // Verify inventory ID exists - deleteInventoryId
-                let inventoryDelete = await Inventory.findByIdAndDelete(deleteInventoryId);
+                let inventoryDelete = await Inventory.findByIdAndDelete(req.params.id);
                 if (!inventoryDelete) {
-                    return res.status(404).send('Inventory is not found');
+                    return res.status(404).json({error: 'Inventory is not found'});
                 }
 
-                let inventories = await Inventory.find().populate("userId")
-                let message= `Inventory ${inventoryDelete.inventoryId} deleted!`
-                res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
-
+                // let inventories = await Inventory.find().populate("userId")
+                // let message= `Inventory ${inventoryDelete.inventoryId} deleted!`
+                // res.redirect(`/34375783/inventory/view?role=${role}&userId=${encodeURIComponent(userId)}&fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}&message=${encodeURIComponent(message)}`);
+                res.status(200).json({
+                    message: `Inventory ${inventoryDelete.inventoryId} deleted!`
+                })
             } catch (error) {
                 console.error(error);
-                res.status(500).render("404", {errorMsg: 'Server Error'})
+                res.status(500).json({error: 'Server Error'})
             }
     },
     getEditRecipe: async function (req, res) {
@@ -277,7 +265,7 @@ module.exports = {
                 inventory
             });
         }
-        res.status(500).render("404", {errorMsg: 'Server Error'})
+        res.status(500).json({error: 'Server Error'})
     
     }
     }

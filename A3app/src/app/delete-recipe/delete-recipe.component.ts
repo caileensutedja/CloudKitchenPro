@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Recipe } from '../models/recipe';
 import { RecipeService } from '../recipe.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth-service.service';
 
 @Component({
   selector: 'app-delete-recipe',
@@ -16,13 +17,19 @@ import { Router } from '@angular/router';
 export class DeleteRecipeComponent {
   recipes: Recipe[] = [];
   deleteRecipeId: string = '';
-
+  errorMessage: string = '';
   
-  constructor(private recipeService: RecipeService, private router: Router){}
+  constructor(private recipeService: RecipeService, private router: Router, private authService: AuthService){}
   
-    ngOnInit(){
-      this.recipeService.getRecipe()
-      .subscribe((data: any) => { this.recipes = data});
+    ngOnInit(): void {
+      const userId = this.authService.userId;
+      this.recipeService.getDeleteRecipe(userId).subscribe({
+        next: (data: any) => {
+          this.recipes = data.recipes;
+        },
+      error: (err) => {
+        console.error('Failed to load dashboard')
+    }})
     }
 
 
@@ -44,15 +51,24 @@ export class DeleteRecipeComponent {
         this.deleteRecipe();
       }
     }).catch((error) => {
+      this.errorMessage = error.error.message
       console.log('Modal dismissed', error);
     });
   }
 
   deleteRecipe(){
-  this.recipeService.createRecipe(this.deleteRecipeId)
-      .subscribe((data: any) => {
-          console.log(data);
-          this.router.navigate(["list-recipe"]);
-      })
+  this.recipeService.deleteRecipe(this.deleteRecipeId)
+      .subscribe({
+        next: (data: any) => {
+          console.log('Deleted:', data);
+
+          this.router.navigate(["/34375783/recipe/view"], 
+            {state: {message: data.message}});
+        },
+        error: (err: any) => {
+          console.error('Delete failed:', err);
+          alert('Failed to delete recipe. Please try again.');
+        }
+    });
   }
 }

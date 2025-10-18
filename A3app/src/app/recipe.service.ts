@@ -23,7 +23,11 @@ export class RecipeService {
     return this.http.get(API_URL + "/view");
   }
 
+  getDeleteRecipe(userId: any){
+    return this.http.get(API_URL + "/delete", { params: { userId }});
+  }
+
   deleteRecipe(id: string){
-    return this.http.delete(API_URL + "/delete" + id);
+    return this.http.delete(`${API_URL}/delete/${id}`);
   }
 }
