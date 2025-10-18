@@ -1,5 +1,4 @@
-<p>header works!</p>
-<h1>HEADER</h1>
+<p>HEADER</p>
 <a routerLink="/34375783/user/login" style="margin-right: 20px;">Login</a>
 <a routerLink="/34375783/user/register" style="margin-right: 20px;">Register</a>
 
@@ -10,3 +9,75 @@
 <a routerLink="/34375783/recipe/view" style="margin-right: 20px;">View Recipe</a>
 <a routerLink="/34375783/recipe/delete" style="margin-right: 20px;">Delete Recipe</a>
 <a routerLink="/34375783/dashboard" style="margin-right: 20px;">Dashboard</a>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    @if (auth.isLoggedIn()) {
+      <a class="navbar-brand fw-bold fs-4" routerLink="/34375783/dashboard">Cloud Kitchen Pro</a>
+    }@else{
+      <a class="navbar-brand fw-bold fs-4" routerLink="/34375783/user/login">Cloud Kitchen Pro</a>
+    }
+    <!-- Toggle button for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+
+        <!-- If NOT logged in -->
+        @if (!auth.isLoggedIn()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/34375783/user/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/34375783/user/register">Register</a>
+          </li>
+        }
+
+        <!-- If logged in -->
+        @if (auth.isLoggedIn()) {
+
+          <!-- Inventory dropdown (visible to chef, admin, manager) -->
+          @if (auth.role === 'chef' || auth.role === 'admin' || auth.role === 'manager') {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="inventoryDropdown" role="button" data-bs-toggle="dropdown">
+                Inventory
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="inventoryDropdown">
+                <li><a class="dropdown-item" routerLink="/34375783/inventory/add">Add Inventory</a></li>
+                <li><a class="dropdown-item" routerLink="/34375783/inventory/view">View Inventory</a></li>
+                <li><a class="dropdown-item" routerLink="/34375783/inventory/delete">Delete Inventory</a></li>
+              </ul>
+            </li>
+          }
+
+          <!-- Recipe dropdown (chef only) -->
+          @if (auth.role === 'chef') {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="recipeDropdown" role="button" data-bs-toggle="dropdown">
+                Recipes
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="recipeDropdown">
+                <li><a class="dropdown-item" routerLink="/34375783/recipe/add">Add Recipe</a></li>
+                <li><a class="dropdown-item" routerLink="/34375783/recipe/view">View Recipe</a></li>
+                <li><a class="dropdown-item" routerLink="/34375783/recipe/delete">Delete Recipe</a></li>
+              </ul>
+            </li>
+          }
+
+          <!-- Dashboard (visible to everyone logged in) -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/34375783/dashboard">Dashboard</a>
+          </li>
+
+          <!-- Logout button -->
+          <li class="nav-item">
+            <button class="btn btn-danger ms-2" (click)="logout()">Logout</button>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
