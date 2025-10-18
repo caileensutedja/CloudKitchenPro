@@ -17,7 +17,7 @@ export class AuthService {
   /** Save user info on login */
   loginUser(user: User) {
     this._user = user;
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   }
   /** Returns true if user is logged in */
   isLoggedIn(): boolean {
@@ -35,7 +35,12 @@ export class AuthService {
   }
 
   /** Returns the user's name */
-  get name(): string {
+  get userId(): string | null {
+    return this._user?.userId ?? null;
+  }
+
+  /** Returns the user's name */
+  get fullname(): string {
     return this._user?.fullname ?? '';
   }
 

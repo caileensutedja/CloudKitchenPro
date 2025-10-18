@@ -30,7 +30,7 @@ export class LoginComponent {
         console.log(data);
         if (data) {
           // Store the user logged in
-          this.auth.loginUser(this.user);
+          this.auth.loginUser(data.user);
           this.successMessage = data.message || 'Login successful!';
           const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/34375783/dashboard';
           this.router.navigateByUrl(returnUrl);
