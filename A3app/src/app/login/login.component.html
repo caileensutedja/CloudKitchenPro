@@ -8,10 +8,9 @@
     }
     @if(errorMessage.length > 0){
         <div class="alert alert-danger">
-            <h4>Input Errors:</h4>
-            @for(error of errorMessage; track $index){
-                <li>{{error}}</li>
-            }
+            <h4>Login Failed:</h4>
+            {{errorMessage}}
+            
         </div>
     }
     <div class="card shadow p-3 mb-3 w-50 mx-auto">

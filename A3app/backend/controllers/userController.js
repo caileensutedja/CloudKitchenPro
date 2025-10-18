@@ -48,7 +48,6 @@ module.exports = {
     loginUser: async function (req, res){
         try {
             const { email, password } = req.body;
-            let message = '';
             // Validate
             const user = await User.findOne(
                 {'email': email}, 
@@ -58,15 +57,15 @@ module.exports = {
                 fullname: 1,
                 role: 1});
             if (!user) {
-                return res.status(404).json({ message: 'Email not found, please try again.' });
+                return res.status(404).json({ error: 'Email not found, please try again.' });
             }
             if (user.password !== password) {
-                return res.status(401).json({ message: 'Incorrect password. Please try again.' });
+                return res.status(401).json({ error: 'Incorrect password. Please try again.' });
             }
             res.status(200).json({message: 'Login Successful', user})
         } catch (error){
             console.error(error);
-            res.status(500).json({errorMsg: 'Server Error'})
+            res.status(500).json({error: 'Server Error'})
         }
     }
 };

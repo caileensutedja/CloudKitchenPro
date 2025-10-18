@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './error-404.component.css'
 })
 export class Error404Component {
-
+  errorMsg: string = '';
 }

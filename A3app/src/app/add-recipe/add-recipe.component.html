@@ -1,11 +1,11 @@
 <p>add-recipe works!</p>
 
 <div class="container">
-    <!-- <% if (message) { %>
-            <div class="alert alert-danger">
-                <p><%- message %></p>
+    @if(message !== ''){
+            <div class="alert alert-success">
+                {{message}}
             </div>
-        <% } %> -->
+        }
     
     <div class="card shadow p-3 mb-3">
         <div class="text-center">

@@ -3,14 +3,14 @@ export class User {
     email: string;
     password: string;
     fullname: string;
-    role: string;
+    role: 'chef' | 'admin' | 'manager';
     phone: string;
     constructor(){
         this.userId = '';
         this.email = '';
         this.password = '';
         this.fullname = '';
-        this.role = '';
+        this.role = 'admin';
         this.phone = '';
     }
 }

@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { Error404Component } from './error-404/error-404.component';
+import { authGuard } from './auth-guard.guard';
 
 export const routes: Routes = [
     // {
@@ -28,7 +29,7 @@ export const routes: Routes = [
     //         { path: 'register', component: RegisterComponent },
     //     ]
     // },
-    { path: '', redirectTo: '34375783/user/login', pathMatch: 'full' },
+    // { path: '', redirectTo: '34375783/user/login', pathMatch: 'full' },
 
     {
         path: '34375783/user',
@@ -39,7 +40,7 @@ export const routes: Routes = [
     },
     {
         path: '34375783/inventory',
-        // canActivate: [AuthGuard],
+        canActivate: [authGuard],
         children: [
             { path: 'add', component: AddInventoryComponent },
             { path: 'view', component: ViewInventoryComponent },
@@ -48,14 +49,14 @@ export const routes: Routes = [
     },
     {
         path: '34375783/recipe',
-        // canActivate: [AuthGuard],
+        canActivate: [authGuard],
         children: [
             { path: 'add', component: AddRecipeComponent },
             { path: 'view', component: ViewRecipeComponent },
             { path: 'delete', component: DeleteRecipeComponent }
         ]
     },
-    { path: '34375783/dashboard', component: DashboardComponent },
-    // { path: '**', component: Error404Component }
+    { path: '34375783/dashboard', component: DashboardComponent, canActivate: [authGuard]},
+    { path: '**', component: Error404Component }
 
 ];

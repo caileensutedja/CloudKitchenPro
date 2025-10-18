@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class AddRecipeComponent {
   recipe: Recipe = new Recipe();
+  message: string = '';
 
   constructor(private recipeService: RecipeService, private router: Router){}
 

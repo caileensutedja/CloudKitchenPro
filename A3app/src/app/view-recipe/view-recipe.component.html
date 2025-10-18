@@ -14,6 +14,11 @@
     <!-- Recipe Collection -->
     <div class="container">
         <h2>All Recipes:</h2>
+        @if(message !== ''){
+            <div class="alert alert-success">
+                {{message}}
+            </div>
+        }
         <!-- For message of addition and deletion -->
         <!-- <% if (typeof message !== 'undefined' && message) { %>
             <div class="alert alert-success"><p>?? Message here</p></div>

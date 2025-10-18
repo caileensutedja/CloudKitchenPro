@@ -10,6 +10,7 @@ import { RecipeService } from '../recipe.service';
 })
 export class ViewRecipeComponent {
   recipes: Recipe[] = [];
+  message: string = '';
 
   constructor(private recipeService: RecipeService){}
 
