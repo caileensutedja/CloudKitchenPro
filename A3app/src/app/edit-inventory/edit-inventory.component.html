@@ -1,0 +1,127 @@
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container">
+    <div class="text-center">
+            <h2 style="font-weight: bold;">
+                Edit Inventory Collection
+            </h2>
+            <p>Edit an inventory item from the collection.</p>
+        </div>
+        @if(message.length > 0){
+            <div class="alert alert-success">
+                {{message}}
+                
+            </div>
+        }
+        @if(errorMessage.length > 0){
+            <div class="alert alert-danger">
+                {{errorMessage}}
+                
+            </div>
+        }
+        <div class="mb-3">
+            <label for="editInventoryId" class="form-label fs-4">Inventory ID:</label>
+            <select class="form-control" id="editInventoryId" name="editInventoryId" [(ngModel)]="editInventoryId"required>
+                <option value="">Select an inventory to edit</option>
+                @for (inventory of inventories; track inventory.inventoryId) {
+                <option [value]="inventory._id">{{ inventory.inventoryId }} - {{ inventory.ingredientName }}</option>
+            }
+            </select>
+        </div>
+        
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-primary me-2" (click)="openFormDialog(formModal, editInventoryId)">
+                Edit
+            </button>
+        </div>
+        <br><br>
+
+<ng-template #formModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">✏️ Edit Inventory</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
+  </div>
+
+  <div class="modal-body">
+
+    <!-- Ingredient Name -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Ingredient Name</label>
+      <input type="text" minlength="2" maxlength="50" class="form-control"
+             [(ngModel)]="editInventoryContent.ingredientName"
+             name="ingredientName" required>
+    </div>
+
+    <!-- Quantity -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Quantity available</label>
+      <input type="number" min="0" step="0.01" max="9999" class="form-control"
+             [(ngModel)]="editInventoryContent.quantity"
+             name="quantity" required>
+    </div>
+
+    <!-- Unit -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Unit</label>
+      <select class="form-control" [(ngModel)]="editInventoryContent.unit" name="unit" required>
+        <option value="">-Select unit of measurement-</option>
+        @for(unit of unitTypes; track unit){
+          <option [value]="unit">{{unit}}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Category</label>
+      <select class="form-control" [(ngModel)]="editInventoryContent.category" name="category" required>
+        <option value="">-Select food category-</option>
+        @for(category of categoryTypes; track category){
+          <option [value]="category">{{category}}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Purchase Date -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Purchase Date</label>
+      <input type="date" class="form-control"
+             [(ngModel)]="editInventoryContent.purchaseDate"
+             name="purchaseDate" required>
+    </div>
+
+    <!-- Expiration Date -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Expiration Date</label>
+      <input type="date" class="form-control"
+             [(ngModel)]="editInventoryContent.expirationDate"
+             name="expirationDate" required>
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Location</label>
+      <select class="form-control" [(ngModel)]="editInventoryContent.location" name="location" required>
+        <option value="">-Select storage location-</option>
+        @for(location of locationTypes; track location){
+          <option [value]="location">{{location}}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Cost -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Cost ($)</label>
+      <input type="number" min="0.01" step="0.01" max="999.99" class="form-control"
+             [(ngModel)]="editInventoryContent.cost"
+             name="cost" required>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('save')">Save Changes</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+  </div>
+</ng-template>
+

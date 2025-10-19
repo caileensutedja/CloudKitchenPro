@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { Error404Component } from './error-404/error-404.component';
 import { authGuard } from './auth-guard.guard';
+import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { EditInventoryComponent } from './edit-inventory/edit-inventory.component';
 
 export const routes: Routes = [
     {
@@ -25,7 +27,8 @@ export const routes: Routes = [
         children: [
             { path: 'add', component: AddInventoryComponent },
             { path: 'view', component: ViewInventoryComponent },
-            { path: 'delete', component: DeleteInventoryComponent }
+            { path: 'delete', component: DeleteInventoryComponent },
+            { path: 'edit', component: EditInventoryComponent }
         ]
     },
     {
@@ -34,7 +37,8 @@ export const routes: Routes = [
         children: [
             { path: 'add', component: AddRecipeComponent },
             { path: 'view', component: ViewRecipeComponent },
-            { path: 'delete', component: DeleteRecipeComponent }
+            { path: 'delete', component: DeleteRecipeComponent },
+            { path: 'edit', component: EditRecipeComponent }
         ]
     },
     { path: '34375783/dashboard', component: DashboardComponent, canActivate: [authGuard]},

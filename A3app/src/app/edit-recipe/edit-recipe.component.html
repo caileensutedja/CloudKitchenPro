@@ -1,0 +1,105 @@
+<div class="container">
+    <div class="text-center">
+            <h2 style="font-weight: bold;">
+                Edit Recipe Collection
+            </h2>
+            <p>Edit your recipe from the collection.</p>
+        </div>
+        @if(errorMessage.length > 0){
+            <div class="alert alert-danger">
+                {{errorMessage}} 
+            </div>
+        }
+    
+        <div class="mb-3">
+            <label for="editRecipeId" class="form-label">Select Recipe:</label>
+            <select id="editRecipeId" [(ngModel)]="editRecipeId" class="form-select">
+            @for (recipe of recipes; track recipe.recipeId) {
+                <option [value]="recipe._id">{{ recipe.recipeId }} - {{ recipe.title }}</option>
+            }
+            </select>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-primary me-2" (click)="openFormDialog(formModal, editRecipeId)">
+                Edit
+            </button>
+        </div><br>
+
+<ng-template #formModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">✏️ Edit Recipe</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss('cancel')"></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Title -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Title</label>
+      <input type="text" class="form-control" [(ngModel)]="editRecipeContent.title" name="title" required>
+    </div>
+
+    <!-- Ingredients -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Ingredients</label>
+      <input type="text" class="form-control" [(ngModel)]="editRecipeContent.ingredients" name="ingredients" required>
+    </div>
+
+    <!-- Instructions -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Instructions</label>
+      <input type="text" class="form-control" [(ngModel)]="editRecipeContent.instructions" name="instructions" required>
+    </div>
+
+    <!-- Meal Type -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Meal Type</label>
+      <select class="form-control" [(ngModel)]="editRecipeContent.mealType" name="mealType" required>
+        <option value="">-Select meal type-</option>
+        @for(type of mealTypes; track type) {
+          <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Cuisine Type -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Cuisine Type</label>
+      <select class="form-control" [(ngModel)]="editRecipeContent.cuisineType" name="cuisineType" required>
+        <option value="">-Select cuisine type-</option>
+        @for(cuisine of cuisineTypes; track cuisine) {
+          <option [value]="cuisine">{{ cuisine }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Prep Time -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Preparation Time (minutes)</label>
+      <input type="number" min="0" max="480" class="form-control" [(ngModel)]="editRecipeContent.prepTime" name="prepTime" required>
+    </div>
+
+    <!-- Difficulty -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Difficulty</label>
+      <select class="form-control" [(ngModel)]="editRecipeContent.difficulty" name="difficulty" required>
+        <option value="">-Select difficulty level-</option>
+        @for(level of difficultyLevels; track level) {
+          <option [value]="level">{{ level }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Servings -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-5">Servings</label>
+      <input type="number" min="1" max="20" class="form-control" [(ngModel)]="editRecipeContent.servings" name="servings" required>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('save')">Save Changes</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+  </div>
+</ng-template>
