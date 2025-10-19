@@ -38,4 +38,8 @@ export class RecipeService {
   editRecipe(recipe: any){
     return this.http.post(API_URL + "/edit", recipe, httpOptions);
   }
+
+  getRecipeDetails(recipeId: any){
+    return this.http.get(API_URL + "/detailview/"+ recipeId);
+  }
 }

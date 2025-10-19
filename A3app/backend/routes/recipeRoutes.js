@@ -10,5 +10,6 @@ router.get('/delete', recipeController.getDeleteRecipe)
 router.delete('/delete/:id', recipeController.deleteRecipe)
 router.get('/edit/:id', recipeController.getEditRecipe)
 router.post('/edit', recipeController.editRecipe)
+router.get('/detailview/:id', recipeController.getDetailedRecipe)
 
 module.exports = router;

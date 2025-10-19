@@ -12,6 +12,7 @@ import { Error404Component } from './error-404/error-404.component';
 import { authGuard } from './auth-guard.guard';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { EditInventoryComponent } from './edit-inventory/edit-inventory.component';
+import { DetailedViewRecipeComponent } from './detailed-view-recipe/detailed-view-recipe.component';
 
 export const routes: Routes = [
     {
@@ -38,7 +39,8 @@ export const routes: Routes = [
             { path: 'add', component: AddRecipeComponent },
             { path: 'view', component: ViewRecipeComponent },
             { path: 'delete', component: DeleteRecipeComponent },
-            { path: 'edit', component: EditRecipeComponent }
+            { path: 'edit', component: EditRecipeComponent },
+            { path: 'detailview/:id', component: DetailedViewRecipeComponent }
         ]
     },
     { path: '34375783/dashboard', component: DashboardComponent, canActivate: [authGuard]},

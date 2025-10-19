@@ -149,6 +149,27 @@ module.exports = {
                 })
                 .join(', ');
             recipe.instructions = recipe.instructions.join(', ');
+            console.log('got recipe: ', recipe)
+            res.status(200).json({
+                recipe
+            })
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({error: 'Server Error'})
+        }
+    },
+    getDetailedRecipe: async function (req, res){
+        try {
+            const recipeId = req.params.id;
+            const recipeFound = await Recipe.findById(recipeId);
+            const recipe = recipeFound.toObject(); // Turn it into plain text
+            if (!recipe) {
+                return res.status(404).json({message: 'Recipe is not found'});
+            }
+            recipe.ingredients = recipe.ingredients
+                .map(each => {
+                    return `${each.quantity}${each.unit} ${each.name}`;
+                })
             res.status(200).json({
                 recipe
             })

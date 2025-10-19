@@ -128,4 +128,9 @@ export class ViewRecipeComponent {
   get userId(): string | null {
         return this.auth.userId
       }
+
+  viewRecipe(recipe: any){
+    this.router.navigate([`/34375783/recipe/detailview/${recipe}`]);
+
+  }
 }
