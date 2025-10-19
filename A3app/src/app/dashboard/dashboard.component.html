@@ -9,6 +9,8 @@
             I'm here to help you elevate your love for food and ofcourse, to organise and store
             you're favorite recipies and track your ingredient inventory. I will be your digital cookbook and your best friend!
         </h5>
+        <h6>With love,</h6>
+        <h6>Caileen Sutedja (34375783)</h6>
 
     </div>
 </div><br>
@@ -19,9 +21,9 @@
     <div class="row justify-content-center">
 
         @if (auth.role === 'admin'){
-            <div class="col-md-3 mb-2">
+            <!-- <div class="col-md-3 mb-2">
                 <a routerLink="/34375783/report" class="btn btn-outline-primary w-100">Report</a>
-            </div>
+            </div> -->
             <div class="col-md-3 mb-2">
                 <a routerLink="/34375783/inventory/add" class="btn btn-outline-primary w-100">Add Inventory</a>
             </div>
@@ -51,9 +53,9 @@
             <div class="col-md-3 mb-2">
                 <a routerLink="/34375783/inventory/delete" class="btn btn-outline-primary w-100">Delete Inventory</a>
             </div>
-            <div class="col-md-3 mb-2">
+            <!-- <div class="col-md-3 mb-2">
                 <a routerLink="/34375783/chefDashboard" class="btn btn-outline-primary w-100">Chef Dashboard</a>
-            </div>
+            </div> -->
         }
         @if (auth.role === 'manager') {
             <div class="col-md-3 mb-2">
@@ -103,11 +105,19 @@
            </div>
         </div>
 <br><hr>
- <div class="container text-center mt-4">
-    <h3><strong>Your Personal Information:</strong></h3>
-    <h5>Role: {{role}}</h5>
-    <h5>User ID: {{userId}}</h5>
-    <h5>Fullname: {{fullname}}</h5>
-    <h5>Email: {{email}}</h5>
+<div class="container text-center">
+    <div class="row">
+        <div class="col-md-8 ">
+            <img src="/logo.png" alt="My Logo Picture">
+        </div>
+        
+        <div class="col-md-4 fs-5 d-flex flex-column justify-content-center">
+            <h3><strong>Your Personal Information:</strong></h3>
+            <h5>Role: {{role}}</h5>
+            <h5>User ID: {{userId}}</h5>
+            <h5>Fullname: {{fullname}}</h5>
+            <h5>Email: {{email}}</h5>
+        </div>
+    </div>
 </div>
 <br>
