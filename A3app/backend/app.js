@@ -27,7 +27,6 @@ app.use(express.static('./dist/assignment3/browser'));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'assignment3', 'browser', 'index.html'));
 });
-// app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
 app.use(express.static('public'));
 app.use(express.static("public/imgs"));
@@ -56,27 +55,6 @@ app.use('/34375783/inventory', inventoryRouter)
 const otherRouter = require('./routes/otherRoutes');
 app.use('/34375783', otherRouter)
 
-// ============================================
-// ROUTES
-// ============================================
-
-// // LOGIN PAGE
-// app.get("/34375783", function (req, res) {
-// 	res.render("login", {message: null});
-// });
-// If base root is allowed
-app.get("/", function (req, res) {
-	res.render("login", {message: null});
-});
-
-/**
- * Error endpoint
- */
-// Works for all HTTP methods and avoids issues with the new route parser
-// Inspired By Lab 4 Code
-// app.use((req, res) => {
-//     res.status(404).render("404", {errorMsg: 'Page not found.'});
-// });
 // ============================================
 // CONNECT TO DATABASE
 // ============================================

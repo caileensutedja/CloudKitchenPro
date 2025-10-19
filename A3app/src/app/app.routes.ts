@@ -15,6 +15,7 @@ import { EditInventoryComponent } from './edit-inventory/edit-inventory.componen
 import { DetailedViewRecipeComponent } from './detailed-view-recipe/detailed-view-recipe.component';
 
 export const routes: Routes = [
+    {path: "", redirectTo:"34375783/user/login", pathMatch:"full"},
     {
         path: '34375783/user',
         children: [
