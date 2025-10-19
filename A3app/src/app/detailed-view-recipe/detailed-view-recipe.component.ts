@@ -15,7 +15,7 @@ import { OtherService } from '../other.service';
 export class DetailedViewRecipeComponent {
   recipe: any = {};
   geminiAnswer: string = '';
-  prompt: string = 'Please analyze recipe healthiness based on ingredients and provide intelligent suggestions for improving nutritional value, in around 100 words';
+  prompt: string = 'Please analyze recipe healthiness based on ingredients and provide intelligent suggestions for improving nutritional value, in around 100-250 words';
   loadingAI: boolean = false; 
 
   constructor(
