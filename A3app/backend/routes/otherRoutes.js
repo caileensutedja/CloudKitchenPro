@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/dashboard', otherController.dashboard);
 router.post('/tts', otherController.textToSpeech);
+router.post('/ask-gemini', otherController.askGemini);
 
 module.exports = router;

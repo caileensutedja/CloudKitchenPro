@@ -3,6 +3,11 @@ const Inventory = require('../models/inventory');
 const User = require('../models/user');
 const textToSpeech = require("@google-cloud/text-to-speech");
 const ttsClient = new textToSpeech.TextToSpeechClient();
+const OpenAI = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+require('dotenv').config();
+
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 module.exports = {
     dashboard: async function (req, res){
@@ -43,6 +48,36 @@ module.exports = {
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "TTS Server Error" });
+        }
+    },
+    // Google Gemini API function
+    askGemini: async function (req, res) {
+        try {
+            const { prompt } = req.body;
+            console.log('Sending request to Google Gemini...');
+            console.log('Prompt:', prompt);
+
+            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            const answer = response.text();
+
+            console.log('Google Gemini Response:');
+            console.log(answer);
+            console.log('-------------------');
+
+            return res.status(200).json({
+                success: true,
+                response: answer,
+                provider: 'Google Gemini'
+            });
+        } catch (error) {
+            console.error('Google Gemini Error:', error.message);
+            return res.status(500).json({
+                success: false,
+                error: error.message,
+                provider: 'Google Gemini'
+            });
         }
     }
 };

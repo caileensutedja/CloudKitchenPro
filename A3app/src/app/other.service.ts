@@ -22,4 +22,8 @@ export class OtherService {
   tts(text: string){
     return this.http.post(API_URL + 'tts', {text: text}, { responseType: 'blob' })
   }
+
+  askGemini(prompt: string) {
+    return this.http.post(API_URL + '/ask-gemini', { prompt });
+  }
 }
