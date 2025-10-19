@@ -104,7 +104,7 @@ module.exports = {
                     userIdString: recipe.userId.userId,
                     ingredientsString: recipe.ingredients.map(each => `${each.quantity}${each.unit} ${each.name}`).join('<br>'),
                     instructionsString: recipe.instructions.join('<br>'),
-                    createdAtString: recipe.createdAt.toISOString().split('T')[0]
+                    // createdAtString: recipe.createdAt.toISOString().split('T')[0]
                 };
                 });
           

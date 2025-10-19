@@ -26,7 +26,6 @@ export class Recipe {
     userIdString: string;
     ingredientsString: string;
     instructionsString: string;
-    createdAtString: string;
     constructor(){
         this._id = '';
         this.recipeId = '';
@@ -44,6 +43,5 @@ export class Recipe {
         this.userIdString = '';
         this.ingredientsString = '';
         this.instructionsString = '';
-        this.createdAtString = '';
     }
 }

@@ -1,4 +1,5 @@
 const Inventory = require('../models/inventory');
+const recipe = require('../models/recipe');
 const User = require('../models/user');
 
 // ============================================
@@ -159,9 +160,15 @@ module.exports = {
     },
     getDeleteInventory: async function (req, res){
         try {
+        // const { userId } = req.query;
         // const { role, userId, fullname, email } = req.query;
         let inventories = await Inventory.find().sort({ inventoryId: 1}).populate('userId');
-       
+        inventories = inventories.map(inventory => {
+            return {
+                ...inventory.toObject(),
+                userIdString: inventory.userId.userId
+            }
+        });
         // res.render('delete-inventory', {
         //     role, 
         //     userId, 

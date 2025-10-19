@@ -1,4 +1,5 @@
 export class Inventory {
+    _id: string;
     inventoryId: string;
     userId: string;
     ingredientName: string;
@@ -12,7 +13,9 @@ export class Inventory {
     daysLeft: number;
     soonExpired: boolean;
     createdAt: string;
+    userIdString: string;
     constructor(){
+        this._id = '';
         this.inventoryId = '';
         this.userId = '';
         this.ingredientName = '';
@@ -26,6 +29,7 @@ export class Inventory {
         this.daysLeft = 0;
         this.soonExpired = false;
         this.createdAt = '';
+        this.userIdString= '';
     }
 }
 

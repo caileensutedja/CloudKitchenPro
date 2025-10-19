@@ -7,14 +7,12 @@
             </h2>
             <p>Delete your recipe from the collection.</p>
         </div>
-
         @if(errorMessage.length > 0){
-        <div class="alert alert-danger">
-            {{errorMessage}}
-            
-        </div>
-    }
-   
+            <div class="alert alert-danger">
+                {{errorMessage}} 
+            </div>
+        }
+    
         <div class="mb-3">
             <label for="deleteRecipeId" class="form-label">Select Recipe:</label>
             <select id="deleteRecipeId" [(ngModel)]="deleteRecipeId" class="form-select">
@@ -28,7 +26,7 @@
             <button type="button" class="btn btn-primary me-2" (click)="openConfirmationDialog(confirmationModal)">
               Delete Recipe
             </button>
-        </div>
+        </div><br>
 
 <ng-template #confirmationModal let-modal>
   <div class="modal-header">
@@ -81,12 +79,11 @@
                             <td>{{recipe.prepTime}}</td>
                             <td>{{recipe.difficulty}}</td>
                             <td>{{recipe.servings}}</td>
-                            <td>{{recipe.createdAtString}}</td>
+                            <td>{{recipe.createdAt | date:'yyyy-MM-dd'}}</td>
                             <td>Action</td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
-
 </div>

@@ -15,7 +15,7 @@ export class AddRecipeComponent {
   recipe: Recipe = new Recipe();
   errorMessage: string[] = [];
   message: string = '';
-  mealTypes: string[] = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert', 'Pastry', 'Beverage', 'Other'];
+  mealTypes: string[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
   cuisineTypes: string[] = ["Italian", "Asian", "Mexican", "American", "French", "Indian", "Mediterranean", "Other"];
   difficultyLevels: string[] = ['Easy', 'Medium', 'Hard'];
   

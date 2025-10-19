@@ -1,1 +1,93 @@
 <p>delete-inventory works!</p>
+
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container">
+    <div class="text-center">
+            <h2 style="font-weight: bold;">
+                &#128465;Delete an Inventory Collection&#128465;
+            </h2>
+            <p>Delete an inventory from the collection.</p>
+        </div>
+        @if(errorMessage.length > 0){
+            <div class="alert alert-danger">
+                {{errorMessage}}
+                
+            </div>
+        }
+        <div class="mb-3">
+            <label for="deleteInventoryId" class="form-label fs-4">Inventory ID:</label>
+            <select class="form-control" id="deleteInventoryId" name="deleteInventoryId" [(ngModel)]="deleteInventoryId"required>
+                <option value="">Select an inventory to delete</option>
+                @for (inventory of inventories; track inventory.inventoryId) {
+                <option [value]="inventory._id">{{ inventory.inventoryId }} - {{ inventory.ingredientName }}</option>
+            }
+            </select>
+        </div>
+        
+        <div class="d-grid gap-2 d-md-block">
+            <button type="button" class="btn btn-primary me-2" (click)="openConfirmationDialog(confirmationModal)">
+              Delete Inventory
+            </button>
+        </div>
+        <br><br>
+
+<ng-template #confirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation of Deletion</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this inventory?</p>
+    <p><small class="text-muted">This action cannot be undone.</small></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('yes')">Yes, Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('no')">Cancel</button>
+  </div>
+</ng-template>
+
+    @if (inventories.length === 0) {
+            <!-- Show this message when no inventories exist -->
+            <p class="text-muted">No inventories available.</p>
+        }@else{
+            <!-- Display inventories in a Bootstrap table -->
+            <table class="table table-striped">
+                <h4>Inventories:</h4>
+                <thead class="table-dark">
+                    <tr>
+                        <th>Inventory ID</th>
+                        <th>User ID</th>
+                        <th>Ingredient Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Category</th>
+                        <th>Purchase Date</th>
+                        <th>Expiration Date</th>
+                        <th>Location</th>
+                        <th>Cost</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(inventory of inventories; track inventory){
+                        <tr>
+                            <!-- Each inventory object has properties -->
+                            <td>{{ inventory.inventoryId }}</td>
+                            <td>{{ inventory.userIdString }}</td>
+                            <td>{{ inventory.ingredientName }}</td>
+                            <td>{{ inventory.quantity }}</td>
+                            <td>{{ inventory.unit }}</td>
+                            <td>{{ inventory.category }}</td>
+                            <td>{{ inventory.purchaseDate | date:'yyyy-MM-dd' }}</td>
+                            <td [class]="inventory.soonExpired ? 'text-danger' : 'text-dark'">{{ inventory.expirationDate | date:'yyyy-MM-dd' }}</td>
+                            <td>{{ inventory.location }}</td>
+                            <td>{{ inventory.cost }}</td>
+                            <td>{{ inventory.createdAt | date:'yyyy-MM-dd' }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+</div>

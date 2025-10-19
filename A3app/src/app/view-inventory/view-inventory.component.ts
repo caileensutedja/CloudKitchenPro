@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Inventory } from '../models/inventory';
 import { InventoryService } from '../inventory.service';
 import { AuthService } from '../auth-service.service';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-inventory',
@@ -16,7 +17,6 @@ import { DatePipe } from '@angular/common';
 export class ViewInventoryComponent {
   message: string = '';
   errorMessage: string = '';
-  // inventoryByCategory: string[] = [];
   count: number = 0;
   totalCost: number = 0;
   lowStock: Inventory[] = [];
@@ -26,6 +26,7 @@ export class ViewInventoryComponent {
       categoryCount: number;
       inventory: Inventory[];
       }[] = [];
+  deleteInventoryId: string = '';
 
   constructor(
     public auth: AuthService, 
@@ -48,4 +49,42 @@ export class ViewInventoryComponent {
   }})
   }
 
+  private modalService = inject(NgbModal);
+
+  openConfirmationDialog(content: any, inventoryId: any) {
+    if (!inventoryId) {
+      alert('Please select an inventory item first!');
+      return;
+    }
+    this.deleteInventoryId = inventoryId;
+
+    const modalRef = this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true
+    });
+
+    modalRef.result.then((result) => {
+      if (result === 'yes') {
+        this.deleteInventory();
+      }
+    }).catch((error) => {
+      this.errorMessage = error.error.message
+      console.log('Modal dismissed', error);
+    });
+  }
+
+  deleteInventory(){
+  this.inventoryService.deleteInventory(this.deleteInventoryId)
+      .subscribe({
+        next: (data: any) => {
+          console.log('Deleted:', data);
+          this.message = 'Inventory successfully deleted!';
+          this.ngOnInit();
+        },
+        error: (err: any) => {
+          console.error('Delete failed:', err);
+          alert('Failed to delete inventory. Please try again.');
+        }
+    });
+  }
 }

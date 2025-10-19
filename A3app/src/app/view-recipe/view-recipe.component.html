@@ -5,7 +5,6 @@
         </h2>
         <div style="text-align: right;" class="md-3">
             <button class="btn btn-dark" routerLink="/34375783/recipe/add">Add Recipe</button>
-
         </div>
     </div>
     <h6 class="text-center">Total recipes in collection: {{count}}</h6>
@@ -24,10 +23,6 @@
                 {{errorMessage}}
             </div>
         }
-        <!-- For message of addition and deletion -->
-        <!-- <% if (typeof message !== 'undefined' && message) { %>
-            <div class="alert alert-success"><p>?? Message here</p></div>
-        <% } %> -->
         @if(recipes.length === 0) {
             <p class="text-muted">No recipes available.</p>
         }@else{
@@ -64,8 +59,12 @@
                             <td>{{recipe.prepTime}}</td>
                             <td>{{recipe.difficulty}}</td>
                             <td>{{recipe.servings}}</td>
-                            <td>{{recipe.createdAtString}}</td>
-                            <td>Action</td>
+                            <td>{{recipe.createdAt | date:'yyyy-MM-dd'}}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary me-2" (click)="openConfirmationDialog(confirmationModal, recipe._id)">
+                                    Delete Recipe
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -73,3 +72,18 @@
         }
     </div>
 </div>
+
+<ng-template #confirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation of Deletion</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete this recipe?</p>
+    <p><small class="text-muted">This action cannot be undone.</small></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('yes')">Yes, Delete</button>
+    <button type="button" class="btn btn-secondary" (click)="modal.close('no')">Cancel</button>
+  </div>
+</ng-template>
