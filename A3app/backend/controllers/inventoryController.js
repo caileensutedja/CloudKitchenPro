@@ -116,7 +116,7 @@ module.exports = {
         {
             $addFields: {
             daysLeft: {
-                $floor: {
+                $ceil: {
                 $divide: [
                     { $subtract: ["$expirationDate", new Date()] },
                     1000 * 60 * 60 * 24 // milliseconds → days

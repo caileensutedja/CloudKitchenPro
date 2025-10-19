@@ -12,25 +12,6 @@ import { Error404Component } from './error-404/error-404.component';
 import { authGuard } from './auth-guard.guard';
 
 export const routes: Routes = [
-    // {
-    //     path: '34375783',
-    //     // canActivate: [AuthGuard],
-    //     children: [
-    //         {path: "login", component: LoginComponent},
-    //         {path: "register", component: RegisterComponent},
-    //         {path: "add-inventory", component: AddInventoryComponent},
-    //         { path: 'view-inventory', component: ViewInventoryComponent },
-    //         { path: 'delete-inventory', component: DeleteInventoryComponent },
-    //         { path: 'add-recipe', component: AddRecipeComponent },
-    //         { path: 'view-recipe', component: ViewRecipeComponent },
-    //         { path: 'delete-recipe', component: DeleteRecipeComponent },
-    //         { path: 'dashboard', component: DashboardComponent },
-    //         { path: 'login', component: LoginComponent },
-    //         { path: 'register', component: RegisterComponent },
-    //     ]
-    // },
-    // { path: '', redirectTo: '34375783/user/login', pathMatch: 'full' },
-
     {
         path: '34375783/user',
         children: [

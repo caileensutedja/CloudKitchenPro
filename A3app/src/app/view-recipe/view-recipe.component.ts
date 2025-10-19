@@ -108,20 +108,24 @@ export class ViewRecipeComponent {
     });
 }
 
-editRecipe() {
-  const user = this.auth.currentUser;
-  this.recipeService.editRecipe({recipe: this.editRecipeContent, user: user})
-    .subscribe({
-      next: (data: any) => {
-        console.log('Updated:', data);
-        this.message = 'Recipe successfully updated!';
-        this.ngOnInit();
-        
-      },
-      error: (error: any) => {
-        const msg = error.error.error || [error.error.error || 'Failed to create new recipe, please try again.']
-        alert(msg);
+  editRecipe() {
+    const user = this.auth.currentUser;
+    this.recipeService.editRecipe({recipe: this.editRecipeContent, user: user})
+      .subscribe({
+        next: (data: any) => {
+          console.log('Updated:', data);
+          this.message = 'Recipe successfully updated!';
+          this.ngOnInit();
+          
+        },
+        error: (error: any) => {
+          const msg = error.error.error || [error.error.error || 'Failed to create new recipe, please try again.']
+          alert(msg);
+        }
+      });
+  }
+
+  get userId(): string | null {
+        return this.auth.userId
       }
-    });
-}
 }

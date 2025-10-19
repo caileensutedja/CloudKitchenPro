@@ -1,12 +1,10 @@
-<p>view-inventory works!</p>
-
 <script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <link rel="stylesheet" href="/bootstrap-icons/font/bootstrap-icons.css"></link> -->
 
 <div class="row">
     <div class="text-center">
         <h2 style="font-weight: bold;">
-            &#128194;Inventory Collection&#128194;
+            📂Inventory Collection📂
         </h2>
         <div style="text-align: right;" class="md-3">
             <button class="btn btn-dark" routerLink="/34375783/inventory/add">Add Inventory</button>
@@ -15,10 +13,10 @@
     </div>
 
     <div class="fs-4 text-center" style="font-weight: bold;">
-        &#128176;Total Inventory value: ${{ totalCost }}&#128176;
+        💰Total Inventory value: ${{ totalCost }}💰
     </div><br><br>
     <h6 class="text-center">Total items in inventory: {{ count }}</h6>
-<!-- Expiry Items -->
+    <!-- Expiry Items -->
     <div class="container">
         <h2>All Inventories:</h2>
         @if(errorMessage !== ''){
@@ -29,7 +27,7 @@
 
         <div class="card">
             <div class="card-header bg-danger text-white fs-4" style="font-weight: bold;">
-                &#128680;Items Expiring within 3 Days!
+                🚨Items Expiring within 3 Days!
             </div>
             <div class="card-body">
                 @if(expiringSoon.length === 0){
@@ -68,7 +66,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header bg-warning text-black fs-4" style="font-weight: bold;">
-                &#128201;Low Stock Items (Less than 4 units)!
+                📉Low Stock Items (Less than 4 units)!
             </div>
             <div class="card-body">
                 @if(lowStock.length === 0){

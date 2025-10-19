@@ -5,7 +5,7 @@ const User = require('../models/user');
 // ============================================
 module.exports = {
     getRegister: async function (req, res){
-        res.status(500).json({ errorMsg: 'Angular frontend error' });
+        res.status(500).json({ error: 'Angular frontend error' });
     },
     
     createUser: async function(req, res){
@@ -35,14 +35,14 @@ module.exports = {
             // Handle Mongoose validation errors
             if (error.name === 'ValidationError') {
                 const errors = Object.values(error.errors).map(err => err.message);
-                return res.status(400).json({message: errors})
+                return res.status(400).json({error: errors})
             }
-            res.status(500).json({message: ['Server Error' + error.message]})
+            res.status(500).json({error: ['Server Error' + error.message]})
         }
     },
     
     getLogin: async function (req, res) {
-        res.status(500).json({errorMsg: 'Angular frontend error'})
+        res.status(500).json({error: 'Angular frontend error'})
     },
     
     loginUser: async function (req, res){

@@ -26,7 +26,7 @@ export class RegisterComponent {
       });
     },
     error: (error) => {
-      this.errorMessage = error.error.message || ['Failed to register, please try again.']
+      this.errorMessage = error.error.error || ['Failed to register, please try again.']
       console.log("error msg from backend: ", this.errorMessage)
     }
     });
