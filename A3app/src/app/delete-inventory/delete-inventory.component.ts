@@ -33,10 +33,13 @@ export class DeleteInventoryComponent {
 
   private modalService = inject(NgbModal);
 
-  openConfirmationDialog(content: any) {
-    if (!this.deleteInventoryId) {
+  openConfirmationDialog(content: any, inventoryId?: any) {
+    if (!this.deleteInventoryId && !inventoryId) {
       alert('Please select an inventory item first!');
       return;
+    }
+    if (!this.deleteInventoryId){
+      this.deleteInventoryId = inventoryId;
     }
 
     const modalRef = this.modalService.open(content, {

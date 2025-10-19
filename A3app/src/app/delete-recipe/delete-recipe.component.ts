@@ -35,10 +35,13 @@ export class DeleteRecipeComponent {
 
   private modalService = inject(NgbModal);
 
-  openConfirmationDialog(content: any) {
-    if (!this.deleteRecipeId) {
+  openConfirmationDialog(content: any, recipeId?: any) {
+    if (!this.deleteRecipeId && !recipeId) {
       alert('Please select a recipe first!');
       return;
+    }
+    if (!this.deleteRecipeId){
+      this.deleteRecipeId = recipeId;
     }
 
     const modalRef = this.modalService.open(content, {

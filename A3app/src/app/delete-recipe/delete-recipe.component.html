@@ -80,7 +80,11 @@
                             <td>{{recipe.difficulty}}</td>
                             <td>{{recipe.servings}}</td>
                             <td>{{recipe.createdAt | date:'yyyy-MM-dd'}}</td>
-                            <td>Action</td>
+                            <td>
+                                <button type="button" class="btn btn-danger me-2" (click)="openConfirmationDialog(confirmationModal, recipe._id)">
+                                    Delete Recipe
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>

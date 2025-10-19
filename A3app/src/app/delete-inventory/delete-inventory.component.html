@@ -67,6 +67,7 @@
                         <th>Location</th>
                         <th>Cost</th>
                         <th>Created Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,6 +85,11 @@
                             <td>{{ inventory.location }}</td>
                             <td>{{ inventory.cost }}</td>
                             <td>{{ inventory.createdAt | date:'yyyy-MM-dd' }}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger me-2" (click)="openConfirmationDialog(confirmationModal, inventory._id)">
+                                    Delete Inventory
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>

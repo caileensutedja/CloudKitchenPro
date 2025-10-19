@@ -20,7 +20,7 @@
     <h6 class="text-center">Total items in inventory: {{ count }}</h6>
 <!-- Expiry Items -->
     <div class="container">
-        <h2>All Recipes:</h2>
+        <h2>All Inventories:</h2>
         @if(errorMessage !== ''){
             <div class="alert alert-danger">
                 {{errorMessage}}
@@ -161,7 +161,7 @@
                         </div>
                         <div>
                             <button type="button" class="btn btn-primary me-2" (click)="openConfirmationDialog(confirmationModal, inventory._id)">
-                                Delete Recipe
+                                Delete Inventory
                             </button>
                         </div>
                     </td>
