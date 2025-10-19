@@ -9,10 +9,5 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (!auth.isLoggedIn()) {
     return router.createUrlTree(['34375783/user/login'], { queryParams: { returnUrl: state.url } });
   }
-  // if (!auth.hasAnyRole(null)) {
-  //   return router.createUrlTree(['/access-denied']);
-  // }
-
-  // Authorized so allow through
   return true;
 };

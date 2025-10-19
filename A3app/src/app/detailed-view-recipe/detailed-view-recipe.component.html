@@ -35,6 +35,9 @@
             <li>{{ingredient}}</li>
           }
         </ul>
+        <button class="btn btn-primary" (click)="text2speech(recipe.ingredients)">
+          Play
+        </button>
       </div>
     </div>
   </div>
@@ -49,6 +52,9 @@
             <li>{{step}}</li>
           }
         </ol>
+        <button class="btn btn-primary" (click)="text2speech(recipe.instructions)">
+          Play
+        </button>
       </div>
     </div>
   </div>

@@ -4,6 +4,7 @@ import { RecipeService } from '../recipe.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { OtherService } from '../other.service';
 
 @Component({
   selector: 'app-detailed-view-recipe',
@@ -17,7 +18,8 @@ export class DetailedViewRecipeComponent {
   constructor(
     public auth: AuthService, 
     private recipeService: RecipeService, 
-    private route: ActivatedRoute){
+    private route: ActivatedRoute,
+    private otherService: OtherService){
   }
     ngOnInit(): void {
       const id = this.route.snapshot.paramMap.get('id');
@@ -32,5 +34,24 @@ export class DetailedViewRecipeComponent {
             }
       });
   }
+  text2speech(recipeText: string) {
+    const text = Array.isArray(recipeText) ? recipeText.join('. ') : recipeText;
+    this.otherService.tts(text).subscribe({
+    next: (blob) => {
+      console.log("Received audio blob:", blob);
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.play().then(() => {
+        console.log("Audio playing!");
+      }).catch(err => {
+        console.error("Audio playback error:", err);
+      });
+    },
+    error: (err) => {
+      console.error("HTTP error:", err);
+    }
+  });
+  }
+
 }
 

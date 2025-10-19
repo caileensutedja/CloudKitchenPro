@@ -18,4 +18,8 @@ export class OtherService {
   dashboard(){
       return this.http.get(API_URL + "/dashboard");
   };
+
+  tts(text: string){
+    return this.http.post(API_URL + 'tts', {text: text}, { responseType: 'blob' })
+  }
 }
