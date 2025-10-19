@@ -3,16 +3,14 @@ const Inventory = require('../models/inventory');
 const User = require('../models/user');
 const textToSpeech = require("@google-cloud/text-to-speech");
 const ttsClient = new textToSpeech.TextToSpeechClient();
-const OpenAI = require('openai');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-require('dotenv').config();
-
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+// require('dotenv').config();
+const GOOGLE_API_KEY= 'AIzaSyAUcybTTNmlCEqIwuu90QvUxvQhvS4kRLs'
+const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 
 module.exports = {
     dashboard: async function (req, res){
         try {
-            // const { role, userId, fullname, email } = req.query;
             let userCount = await User.countDocuments();
             let recipeCount = await Recipe.countDocuments();
             let inventoryCount = await Inventory.countDocuments();
