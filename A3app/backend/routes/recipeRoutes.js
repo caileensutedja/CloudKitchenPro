@@ -8,7 +8,7 @@ router.post('/add', recipeController.createRecipe)
 router.get('/view', recipeController.getViewRecipe)
 router.get('/delete', recipeController.getDeleteRecipe)
 router.delete('/delete/:id', recipeController.deleteRecipe)
-router.get('/edit', recipeController.getEditRecipe)
+router.get('/edit/:id', recipeController.getEditRecipe)
 router.post('/edit', recipeController.editRecipe)
 
 module.exports = router;

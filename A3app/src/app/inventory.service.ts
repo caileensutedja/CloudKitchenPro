@@ -30,4 +30,12 @@ export class InventoryService {
     deleteInventory(id: string){
       return this.http.delete(API_URL + "/delete/" + id);
     }
+
+    getEditInventory(id: any){
+      return this.http.get(API_URL + "/edit/"+ id);
+    }
+
+    editInventory(inventory: any){
+      return this.http.post(API_URL + "/edit", inventory, httpOptions);
+    }
 }

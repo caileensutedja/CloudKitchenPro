@@ -30,4 +30,12 @@ export class RecipeService {
   deleteRecipe(id: string){
     return this.http.delete(`${API_URL}/delete/${id}`);
   }
+
+  getEditRecipe(recipeId: any){
+    return this.http.get(API_URL + "/edit/"+ recipeId);
+  }
+
+  editRecipe(recipe: any){
+    return this.http.post(API_URL + "/edit", recipe, httpOptions);
+  }
 }

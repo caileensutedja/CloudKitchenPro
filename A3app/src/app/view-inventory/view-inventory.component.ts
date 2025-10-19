@@ -27,6 +27,12 @@ export class ViewInventoryComponent {
       inventory: Inventory[];
       }[] = [];
   deleteInventoryId: string = '';
+  editInventoryId: any = '';
+  editInventoryContent: any = {};
+  unitTypes: string[] = ["pieces", "kg", "g", "liters", "ml", "cups", "tbsp", "tsp", "dozen"];
+  categoryTypes: string[] = ["Vegetables", "Fruits", "Meat", "Dairy", "Grains", "Spices", "Beverages", "Frozen", "Canned", "Other"];
+  locationTypes: string[] = ["Fridge", "Freezer", "Pantry", "Counter", "Cupboard"];
+
 
   constructor(
     public auth: AuthService, 
@@ -87,4 +93,44 @@ export class ViewInventoryComponent {
         }
     });
   }
+
+  // Editing Form
+  openFormDialog(content: any, inventory: any) {
+    this.editInventoryId = inventory;
+    this.inventoryService.getEditInventory(this.editInventoryId)
+      .subscribe({
+        next: (data: any) => {
+          this.editInventoryContent = data.inventory
+          this.editInventoryContent.purchaseDate = this.editInventoryContent.purchaseDate.split('T')[0];
+          this.editInventoryContent.expirationDate = this.editInventoryContent.expirationDate.split('T')[0];
+          const modalRef = this.modalService.open(content, { size: 'lg' });
+          modalRef.result.then((result) => {
+              if (result === 'save') {
+                this.editInventory();
+              }
+            }).catch(() => {});
+        },
+        error: (err: any) => {
+          console.error('Fetchign data failed:', err);
+          alert('Failed to get pre-populated inventory content.');
+        }
+    });
+}
+
+editInventory() {
+  const user = this.auth.currentUser;
+  this.inventoryService.editInventory({inventory: this.editInventoryContent, user: user})
+    .subscribe({
+      next: (data: any) => {
+        console.log('Updated:', data);
+        this.message = 'Inventory successfully updated!';
+        this.ngOnInit();
+        
+      },
+      error: (error: any) => {
+        const msg = error.error.error || [error.error.error || 'Failed to edit inventory, please try again.']
+        alert(msg);
+      }
+    });
+}
 }

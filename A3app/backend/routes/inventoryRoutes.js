@@ -8,7 +8,7 @@ router.post('/add', inventoryController.createInventory)
 router.get('/view', inventoryController.getViewInventory)
 router.get('/delete', inventoryController.getDeleteInventory)
 router.delete('/delete/:id', inventoryController.deleteInventory)
-router.get('/edit', inventoryController.getEditRecipe)
-router.post('/edit', inventoryController.editRecipe)
+router.get('/edit/:id', inventoryController.getEditInventory)
+router.post('/edit', inventoryController.editInventory)
 
 module.exports = router;
