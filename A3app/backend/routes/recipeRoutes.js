@@ -3,6 +3,9 @@ const recipeController = require('../controllers/recipeController');
 
 const router = express.Router();
 
+// ============================================
+// RECIPE ROUTER
+// ============================================
 router.get('/add', recipeController.getCreateRecipe)
 router.post('/add', recipeController.createRecipe)
 router.get('/view', recipeController.getViewRecipe)

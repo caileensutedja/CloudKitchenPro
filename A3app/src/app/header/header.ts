@@ -9,7 +9,6 @@ import { AuthService } from '../auth-service.service';
   styleUrl: './header.css'
 })
 export class Header {
-  // role : string = '';
   constructor(public auth: AuthService, private router: Router) {}
 
     logout() {

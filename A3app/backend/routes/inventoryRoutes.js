@@ -3,6 +3,9 @@ const inventoryController = require('../controllers/inventoryController');
 
 const router = express.Router();
 
+// ============================================
+// INVENTORY ROUTER
+// ============================================
 router.get('/add', inventoryController.getCreateUser)
 router.post('/add', inventoryController.createInventory)
 router.get('/view', inventoryController.getViewInventory)

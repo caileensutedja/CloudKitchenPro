@@ -12,7 +12,6 @@ module.exports = {
     createInventory: async function(req, res){
         try {
             const { inventory, user } = req.body;
-            // const { role, userId, fullname, email } = req.query;
             let { ingredientName, quantity, unit, category, purchaseDate, expirationDate, location, cost} = inventory;
             let inventoryId = await nextInventoryId();
             // Verify user ID exists - userId
@@ -47,8 +46,6 @@ module.exports = {
     },
     getViewInventory: async function (req, res) {
         try {
-        // const { role, userId, fullname, email } = req.query;
-        // let message = req.query.message || null;
         let inventoryByCategory = await Inventory.aggregate([
             // Lookup for the user (like populate)
             {
@@ -138,14 +135,8 @@ module.exports = {
 
         let inventories = await Inventory.find().populate("userId")
         let totalCost = inventories.reduce((sum, item) => sum + item.cost, 0);
+        totalCost = totalCost.toFixed(2);
         let count = await Inventory.countDocuments();
-        // res.render('view-inventory', {
-        //     count,
-        //     totalCost,
-        //     lowStock,
-        //     expiringSoon,
-        //     inventoryByCategory
-        // });
         res.status(200).json({
                 count,
                 totalCost,

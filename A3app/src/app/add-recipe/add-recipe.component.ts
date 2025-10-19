@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Recipe } from '../models/recipe';
 import { RecipeService } from '../recipe.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth-service.service';
 
 @Component({

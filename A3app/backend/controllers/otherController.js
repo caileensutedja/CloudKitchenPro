@@ -27,6 +27,7 @@ module.exports = {
             res.status(500).json({error: 'Server Error'})
         }
     },
+    // HD2: Text 2 Speech
     textToSpeech: async function (req, res) {
         try {
             const text = req.body.text;
@@ -50,7 +51,7 @@ module.exports = {
             res.status(500).json({ error: "TTS Server Error" });
         }
     },
-    // Google Gemini API function
+    // HD1: Google Gemini API function
     askGemini: async function (req, res) {
         try {
             const { prompt } = req.body;

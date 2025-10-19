@@ -6,7 +6,12 @@ const User = require('../models/user');
 // ============================================
 module.exports = {
     getCreateRecipe: async function (req, res){
-        res.status(500).json({ errorMsg: 'Angular frontend error' });
+        try{
+            
+        }catch (error) {
+            console.error(error);
+            res.status(500).json({error: 'Server Error'})
+        }
     },
     createRecipe: async function(req, res){
         try {
@@ -92,9 +97,6 @@ module.exports = {
     getDeleteRecipe: async function(req, res){
         try {
             const { userId } = req.query;
-            // console.log('user is: ', user)
-            // const { role, userId, fullname, email } = user;
-            // console.log('userId is: ', userId)
             let userFound = await User.findOne({userId: userId});
             let recipes = await Recipe.find({userId: userFound._id}).sort({ recipeId: 1}).populate('userId');
             // Turn it back to human readable form
@@ -104,7 +106,6 @@ module.exports = {
                     userIdString: recipe.userId.userId,
                     ingredientsString: recipe.ingredients.map(each => `${each.quantity}${each.unit} ${each.name}`).join('<br>'),
                     instructionsString: recipe.instructions.join('<br>'),
-                    // createdAtString: recipe.createdAt.toISOString().split('T')[0]
                 };
                 });
           
@@ -118,9 +119,6 @@ module.exports = {
     },
     deleteRecipe: async function (req, res) {
         try {
-            // const { role, userId, fullname, email } = req.query;
-            // let { deleteRecipeId } = req.params.id;
-            
             console.log('deleteRecipeId: ', req.params.id)
             // Verify recipe ID exists - recipeId
             let recipeDeleted = await Recipe.findByIdAndDelete(req.params.id);

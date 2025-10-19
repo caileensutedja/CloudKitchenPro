@@ -3,6 +3,9 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+// ============================================
+// USER ROUTER
+// ============================================
 // ROUTES
 router.get('/register', userController.getRegister);
 router.post('/register', userController.createUser);
