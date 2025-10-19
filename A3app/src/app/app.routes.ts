@@ -13,9 +13,10 @@ import { authGuard } from './auth-guard.guard';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 import { EditInventoryComponent } from './edit-inventory/edit-inventory.component';
 import { DetailedViewRecipeComponent } from './detailed-view-recipe/detailed-view-recipe.component';
+import { routeGuard } from './route-guard.guard';
 
 export const routes: Routes = [
-    {path: "", redirectTo:"34375783/user/login", pathMatch:"full"},
+    {path: "", canActivate: [routeGuard], pathMatch:"full"},
     {
         path: '34375783/user',
         children: [
