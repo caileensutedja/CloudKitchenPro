@@ -1,4 +1,4 @@
-# 🍳 CloudKitchen Pro – Recipe & Inventory Management System
+## CloudKitchen Pro – Recipe & Inventory Management System
 
 **CloudKitchen Pro** is a full-stack web application for managing recipes and inventory, developed as part of the **FIT2095 Full Stack Development** unit.  
 It demonstrates role-based access control, CRUD operations, Angular front-end, MongoDB backend, and AI-powered health analysis integration.
@@ -35,3 +35,11 @@ It demonstrates role-based access control, CRUD operations, Angular front-end, M
 4. Run the backend
      node ./backend/app.js
 5. Open http://localhost:8080
+
+--- 
+
+Developed by Caileen Sutedja
+for FIT2095 – Full Stack Development (Monash University)
+
+Semester 2, 2025
+
